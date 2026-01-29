@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROAST.ME - Ultra Clash</title>
+    
+    <!-- Polices Google (Orbitron pour le titre, Roboto pour le texte) -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --bg: #050505;
+            --primary: #ff2a2a; /* Rouge/Orange agressif */
+            --secondary: #00f0ff; /* Cyan Cyber */
+            --text: #ffffff;
+            --dark-panel: #111111;
+            --panel-border: #333;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            overflow: hidden; /* Appli mobile style */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Utilitaire pour cacher/montrer les écrans */
+        .screen { display: none; height: 100%; flex-direction: column; width: 100%; }
+        .screen.active { display: flex; }
+        .hidden { display: none !important; }
+
+        /* --- LOBBY SCREEN --- */
+        #lobby-screen {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+        }
+
+        /* Logo Glitch en pur CSS (pas d'image requise) */
+        .glitch-wrapper {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .glitch-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--text);
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+        }
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--primary);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--secondary);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 30px, 0); transform: skew(0.65deg); }
+            100% { clip: rect(60px, 9999px, 80px, 0); transform: skew(0.3deg); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(80px, 9999px, 100px, 0); transform: skew(0.8deg); }
+            100% { clip: rect(10px, 9999px, 40px, 0); transform: skew(0.2deg); }
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+        }
+
+        /* Inputs & Boutons */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        input {
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid var(--panel-border);
+            background: #000;
+            color: var(--secondary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+        }
+        input:focus { border-color: var(--secondary); box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
+
+        button {
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            background: var(--primary);
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.2s;
+            clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%);
+        }
+        button:hover { background: #ff4b1f; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 42, 42, 0.4); }
+        button:active { transform: scale(0.98); }
+
+        .status-text { margin-top: 20px; color: #555; font-size: 0.9rem; }
+
+        /* --- ARENA SCREEN --- */
+        #arena-screen { background: #000; }
+
+        /* Header avec barres de vie (Aura) */
+        .aura-header {
+            background: var(--dark-panel);
+            padding: 15px;
+            border-bottom: 2px solid var(--panel-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .player-stats { width: 42%; text-align: center; }
+        .player-name { font-weight: bold; display: block; margin-bottom: 5px; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        .aura-bar-container {
+            height: 12px;
+            background: #333;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .aura-fill { height: 100%; transition: width 0.4s ease-out; }
+        #p1-bar { background: linear-gradient(90deg, #00f0ff, #0088ff); box-shadow: 0 0 10px var(--secondary); }
+        #p2-bar { background: linear-gradient(90deg, #ff2a2a, #ff8800); box-shadow: 0 0 10px var(--primary); }
+
+        .aura-value { font-size: 0.8rem; margin-top: 3px; display: block; color: #888; font-family: 'Orbitron'; }
+        
+        .vs-logo { font-family: 'Orbitron'; font-size: 1.5rem; font-style: italic; color: #444; }
+
+        /* Chat Zone */
+        #chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-image: 
+                linear-gradient(rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.9)),
+                repeating-linear-gradient(0deg, transparent, transparent 1px, #111 1px, #111 2px);
+        }
+
+        /* Messages */
+        .message {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        .msg-p1 { 
+            align-self: flex-start; 
+            background: rgba(0, 240, 255, 0.1); 
+            border-left: 3px solid var(--secondary);
+            color: #ddd;
+        }
+        .msg-p2 { 
+            align-self: flex-end; 
+            background: rgba(255, 42, 42, 0.1); 
+            border-right: 3px solid var(--primary);
+            text-align: right;
+            color: #ddd;
+        }
+        
+        .sender-name { font-size: 0.75rem; color: #666; display: block; margin-bottom: 2px; font-weight: bold; }
+
+        /* System / AI Messages */
+        .msg-system {
+            align-self: center;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            text-align: center;
+            font-family: 'Orbitron';
+            font-size: 0.8rem;
+            padding: 8px 15px;
+            margin: 10px 0;
+            box-shadow: 0 0 10px rgba(255, 42, 42, 0.1);
+        }
+
+        /* Contrôles bas */
+        .controls-area {
+            padding: 15px;
+            background: var(--dark-panel);
+            border-top: 1px solid var(--panel-border);
+            display: flex;
+            gap: 10px;
+        }
+
+        #message-input {
+            flex: 1;
+            text-align: left;
+            padding-left: 15px;
+        }
+
+        .spectator-controls {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .btn-vote { flex: 1; font-size: 0.9rem; background: #222; border: 1px solid #444; clip-path: none; }
+        .btn-vote:hover { background: #333; }
+
+        /* Animation secousse */
+        .shake { animation: shake 0.5s; }
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- === LOBBY SCREEN === -->
+    <div id="lobby-screen" class="screen active">
+        <div class="glitch-wrapper">
+            <div class="glitch-text" data-text="ROAST.ME">ROAST.ME</div>
+        </div>
+        <p class="subtitle">CLASH • AURA • CHAOS</p>
+        
+        <div class="input-group">
+            <input type="text" id="username" placeholder="TON NOM" maxlength="12" autocomplete="off">
+            <button onclick="window.findMatch()">TROUVER UN DUEL</button>
+        </div>
+        <p class="status-text" id="lobby-status">● Connexion au serveur...</p>
+    </div>
+
+    <!-- === ARENA SCREEN === -->
+    <div id="arena-screen" class="screen">
+        
+        <!-- Barres d'Aura -->
+        <div class="aura-header">
+            <div class="player-stats">
+                <span class="player-name" id="p1-name">Joueur 1</span>
+                <div class="aura-bar-container">
+                    <div id="p1-bar" class="aura-fill" style="width: 100%;"></div>
+                </div>
+                <span class="aura-value" id="p1-score">1000</span>
+            </div>
+            
+            <div class="vs-logo">VS</div>
+
+            <div class="player-stats">
+                <span class="player-name" id="p2-name">Joueur 2</span>
+                <div class="aura-bar-container">
+                    <div id="p2-bar" class="aura-fill" style="width: 100%;"></div>
+                </div>
+                <span class="aura-value" id="p2-score">1000</span>
+            </div>
+        </div>
+
+        <!-- Chat -->
+        <div id="chat-box">
+            <div class="message msg-system">Bienvenue dans l'arène. Que le meilleur gagne.</div>
+        </div>
+
+        <!-- Input Joueur -->
+        <div id="player-controls" class="controls-area hidden">
+            <input type="text" id="message-input" placeholder="Écris ta punchline..." autocomplete="off">
+            <button onclick="window.sendMessage()" style="width: 80px;">→</button>
+        </div>
+
+        <!-- Input Spectateur -->
+        <div id="spectator-controls" class="controls-area hidden">
+            <div class="spectator-controls">
+                <button class="btn-vote" onclick="window.voteReaction('🔥 BOOM')">🔥 C'EST CHAUD</button>
+                <button class="btn-vote" onclick="window.voteReaction('💀 GÊNANT')">💀 C'EST GÊNANT</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- === JAVASCRIPT === -->
+    <script type="module">
+        // Import Firebase (version CDN module)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+        import { getDatabase, ref, set, push, onValue, update, runTransaction, get, onDisconnect } 
+        from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
+
+        // Configuration Firebase (La tienne)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBwDCPvgwzWb8mxSroebpUWwNGW45MQRTY",
+            authDomain: "roast-me-6ec97.firebaseapp.com",
+            projectId: "roast-me-6ec97",
+            storageBucket: "roast-me-6ec97.firebasestorage.app",
+            messagingSenderId: "206022241999",
+            appId: "1:206022241999:web:d1fc0d73e7a412892491ba",
+            measurementId: "G-MPDG0JP4Y8"
+        };
+
+        // Initialisation
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Variables d'état
+        let myPseudo = "";
+        let currentRoomId = null;
+        let myRole = "spectator"; // 'p1', 'p2', 'spectator'
+
+        // --- PRESENCE SYSTEM (Compteur Live) ---
+        const connectedRef = ref(db, ".info/connected");
+        const onlineUsersRef = ref(db, "onlineUsers");
+
+        onValue(connectedRef, (snap) => {
+            if (snap.val() === true) {
+                // L'utilisateur est connecté, on l'ajoute à la liste 'onlineUsers'
+                const con = push(onlineUsersRef);
+                
+                // Si l'utilisateur se déconnecte (ferme l'onglet), on le retire automatiquement
+                onDisconnect(con).remove();
+                
+                // On enregistre sa présence
+                set(con, true);
+            }
+        });
+
+        // Écouter le nombre de connectés
+        onValue(onlineUsersRef, (snap) => {
+            const count = snap.size; // Nombre de clés dans onlineUsers
+            document.getElementById("lobby-status").innerText = `● ${count} personnes en ligne`;
+        });
+
+
+        // --- MATCHMAKING ---
+
+        window.findMatch = async function() {
+            const input = document.getElementById("username");
+            if (!input.value.trim()) {
+                input.style.borderColor = "red";
+                return;
+            }
+            myPseudo = input.value.trim();
+
+            // Changement d'écran
+            document.getElementById("lobby-screen").classList.remove("active");
+            document.getElementById("arena-screen").classList.add("active");
+
+            // Chercher une salle
+            const roomsRef = ref(db, 'rooms');
+            
+            const snapshot = await get(roomsRef);
+            let joined = false;
+
+            if (snapshot.exists()) {
+                const rooms = snapshot.val();
+                for (const [key, room] of Object.entries(rooms)) {
+                    if (room.status === "waiting") {
+                        // Rejoindre en tant que P2
+                        joinRoom(key, "p2");
+                        joined = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!joined) {
+                // Créer une nouvelle salle
+                createRoom();
+            }
+        };
+
+        function createRoom() {
+            const newRoomRef = push(ref(db, 'rooms'));
+            currentRoomId = newRoomRef.key;
+            myRole = "p1";
+            
+            set(newRoomRef, {
+                status: "waiting",
+                p1: { name: myPseudo, aura: 1000 },
+                p2: { name: "En attente...", aura: 1000 },
+                messages: {}
+            });
+            setupArena();
+        }
+
+        function joinRoom(roomId, role) {
+            currentRoomId = roomId;
+            myRole = role;
+            
+            update(ref(db, `rooms/${roomId}`), {
+                status: "active",
+                p2: { name: myPseudo, aura: 1000 }
+            });
+            setupArena();
+        }
+
+        // --- ARENA LOGIC ---
+
+        function setupArena() {
+            // UI Controls
+            if (myRole === 'p1' || myRole === 'p2') {
+                document.getElementById("player-controls").classList.remove("hidden");
+            } else {
+                document.getElementById("spectator-controls").classList.remove("hidden");
+                // Mode spectateur (Si on n'est ni P1 ni P2, on pourrait logic rejoindre une room active random)
+                // Pour l'exemple, si on crée/joint, on est joueur. 
+            }
+
+            // Sync avec Firebase
+            onValue(ref(db, `rooms/${currentRoomId}`), (snapshot) => {
+                const data = snapshot.val();
+                if (!data) return;
+
+                // Noms
+                document.getElementById("p1-name").innerText = data.p1.name;
+                document.getElementById("p2-name").innerText = data.p2.name;
+
+                // Aura Bars
+                updateBars(data.p1.aura, data.p2.aura);
+
+                // Messages
+                renderChat(data.messages);
+            });
+        }
+
+        function updateBars(aura1, aura2) {
+            const p1Pct = Math.max(0, aura1 / 10);
+            const p2Pct = Math.max(0, aura2 / 10);
+            
+            document.getElementById("p1-bar").style.width = p1Pct + "%";
+            document.getElementById("p1-score").innerText = aura1;
+            
+            document.getElementById("p2-bar").style.width = p2Pct + "%";
+            document.getElementById("p2-score").innerText = aura2;
+
+            // Vérifier fin de partie
+            if (aura1 <= 0 || aura2 <= 0) {
+               // On pourrait ajouter un écran de Game Over ici
+            }
+        }
+
+        // --- MESSAGING ---
+
+        window.sendMessage = function() {
+            const input = document.getElementById("message-input");
+            const text = input.value.trim();
+            if (!text) return;
+
+            // Envoyer le message
+            push(ref(db, `rooms/${currentRoomId}/messages`), {
+                sender: myRole, // p1 ou p2
+                name: myPseudo,
+                text: text,
+                timestamp: Date.now()
+            });
+
+            input.value = "";
+
+            // Déclencher le jugement IA
+            triggerAIJudge(text, myRole);
+        };
+
+        function renderChat(messages) {
+            const chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML = ""; // Clean et rebuild (simple pour MVP)
+
+            if (!messages) return;
+
+            // Convertir objet en tableau et trier
+            const sortedMsgs = Object.values(messages).sort((a, b) => a.timestamp - b.timestamp);
+
+            sortedMsgs.forEach(msg => {
+                const div = document.createElement("div");
+                
+                if (msg.sender === "system") {
+                    div.className = "message msg-system shake";
+                    div.innerHTML = `<strong>IA JUDGE:</strong> ${msg.text}`;
+                } else {
+                    div.className = `message ${msg.sender === 'p1' ? 'msg-p1' : 'msg-p2'}`;
+                    div.innerHTML = `<span class="sender-name">${msg.name}</span>${msg.text}`;
+                }
+                
+                chatBox.appendChild(div);
+            });
+
+            // Scroll auto en bas
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // --- SPECTATOR & AI LOGIC ---
+
+        window.voteReaction = function(reactionType) {
+            // Les spectateurs influencent le match
+            // On envoie un message système pour l'ambiance
+            push(ref(db, `rooms/${currentRoomId}/messages`), {
+                sender: "system",
+                text: `Le public crie ${reactionType} !!!`,
+                timestamp: Date.now()
+            });
+
+            // Si c'est "BOOM" ou "L", on pourrait enlever un peu d'Aura aux deux pour le chaos
+            // Ici on simplifie : juste de l'animation visuelle
+        };
+
+        function triggerAIJudge(text, attackerRole) {
+            // SIMULATION IA (Côté Client pour le MVP)
+            // Dans une vraie app, ça serait une Cloud Function sécurisée.
+            
+            const targetRole = attackerRole === 'p1' ? 'p2' : 'p1';
+            let damage = 0;
+            let comment = "";
+            const lower = text.toLowerCase();
+
+            // Algorithme "Aura" basique
+            if (lower.includes("mère") || lower.includes("maman")) {
+                damage = 10;
+                comment = "Attaque sur la daronne ? Basique. (-10)";
+            } else if (text.length > 25 && (lower.includes("tête") || lower.includes("style") || lower.includes("prof"))) {
+                damage = 40;
+                comment = "C'est précis, ça fait mal. (-40)";
+            } else if (text.length < 5) {
+                damage = 0;
+                comment = "Trop court, fais un effort. (0)";
+            } else {
+                damage = 20;
+                comment = "Petit tacle correct. (-20)";
+            }
+
+            // Appliquer dégâts si > 0
+            if (damage > 0) {
+                setTimeout(() => {
+                    const targetRef = ref(db, `rooms/${currentRoomId}/${targetRole}/aura`);
+                    runTransaction(targetRef, (currentAura) => {
+                        return (currentAura || 1000) - damage;
+                    });
+                    
+                    // Message du juge
+                    push(ref(db, `rooms/${currentRoomId}/messages`), {
+                        sender: "system",
+                        text: `${comment}`,
+                        timestamp: Date.now() + 100
+                    });
+                }, 1000); // Délai dramatique
+            }
+        }
+    </script>
+</body>
+</html>
