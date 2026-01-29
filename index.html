@@ -2,35 +2,36 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ROAST.ME - Ultra Clash</title>
     
-    <!-- Polices Google (Orbitron pour le titre, Roboto pour le texte) -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         /* --- CSS STYLES --- */
         :root {
             --bg: #050505;
-            --primary: #ff2a2a; /* Rouge/Orange agressif */
-            --secondary: #00f0ff; /* Cyan Cyber */
+            --primary: #ff2a2a; /* P2 Color */
+            --secondary: #00f0ff; /* P1 Color */
+            --spectator: #888888;
             --text: #ffffff;
             --dark-panel: #111111;
             --panel-border: #333;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Roboto', sans-serif;
             margin: 0;
-            overflow: hidden; /* Appli mobile style */
+            overflow: hidden;
             height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* Utilitaire pour cacher/montrer les écrans */
         .screen { display: none; height: 100%; flex-direction: column; width: 100%; }
         .screen.active { display: flex; }
         .hidden { display: none !important; }
@@ -41,16 +42,13 @@
             align-items: center;
             text-align: center;
             background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            padding: 20px;
         }
 
-        /* Logo Glitch en pur CSS (pas d'image requise) */
-        .glitch-wrapper {
-            position: relative;
-            margin-bottom: 30px;
-        }
+        .glitch-wrapper { margin-bottom: 30px; }
         .glitch-text {
             font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
+            font-size: 3.5rem;
             font-weight: bold;
             color: var(--text);
             text-transform: uppercase;
@@ -60,22 +58,14 @@
         .glitch-text::before, .glitch-text::after {
             content: attr(data-text);
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg);
+            top: 0; left: 0; width: 100%; height: 100%; background: var(--bg);
         }
         .glitch-text::before {
-            left: 2px;
-            text-shadow: -2px 0 var(--primary);
-            clip: rect(24px, 550px, 90px, 0);
+            left: 2px; text-shadow: -2px 0 var(--primary); clip: rect(24px, 550px, 90px, 0);
             animation: glitch-anim-2 3s infinite linear alternate-reverse;
         }
         .glitch-text::after {
-            left: -2px;
-            text-shadow: -2px 0 var(--secondary);
-            clip: rect(85px, 550px, 140px, 0);
+            left: -2px; text-shadow: -2px 0 var(--secondary); clip: rect(85px, 550px, 140px, 0);
             animation: glitch-anim 2.5s infinite linear alternate-reverse;
         }
 
@@ -88,189 +78,113 @@
             100% { clip: rect(10px, 9999px, 40px, 0); transform: skew(0.2deg); }
         }
 
-        .subtitle {
-            color: #888;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            margin-bottom: 40px;
-        }
+        .subtitle { color: #888; font-size: 1rem; letter-spacing: 3px; margin-bottom: 40px; text-transform: uppercase; }
 
-        /* Inputs & Boutons */
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 80%;
-            max-width: 300px;
-        }
+        .input-group { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 320px; }
 
         input {
-            padding: 15px;
-            border-radius: 4px;
-            border: 1px solid var(--panel-border);
-            background: #000;
-            color: var(--secondary);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            text-align: center;
-            outline: none;
+            padding: 15px; border-radius: 4px; border: 1px solid var(--panel-border);
+            background: #000; color: var(--secondary); font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem; text-align: center; outline: none;
             box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+            width: 100%;
         }
         input:focus { border-color: var(--secondary); box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
 
         button {
-            padding: 15px;
-            border: none;
-            border-radius: 4px;
-            background: var(--primary);
-            color: white;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.2s;
-            clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%);
+            padding: 15px; border: none; border-radius: 4px; background: var(--primary);
+            color: white; font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 1rem;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s;
+            clip-path: polygon(5% 0, 100% 0, 100% 80%, 95% 100%, 0 100%, 0 20%);
         }
-        button:hover { background: #ff4b1f; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 42, 42, 0.4); }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 42, 42, 0.4); }
         button:active { transform: scale(0.98); }
 
-        .status-text { margin-top: 20px; color: #555; font-size: 0.9rem; }
+        .btn-secondary { background: #333; clip-path: polygon(0 0, 95% 0, 100% 20%, 100% 100%, 5% 100%, 0 80%); }
+        .btn-secondary:hover { background: #444; box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1); }
+
+        .status-text { margin-top: 20px; color: #555; font-size: 0.8rem; }
 
         /* --- ARENA SCREEN --- */
-        #arena-screen { background: #000; }
+        #arena-screen { background: #000; position: relative; }
 
-        /* Header avec barres de vie (Aura) */
+        /* Header Aura */
         .aura-header {
-            background: var(--dark-panel);
-            padding: 15px;
-            border-bottom: 2px solid var(--panel-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            background: var(--dark-panel); padding: 10px; border-bottom: 1px solid var(--panel-border);
+            display: flex; justify-content: space-between; align-items: center; z-index: 10;
         }
-
         .player-stats { width: 42%; text-align: center; }
-        .player-name { font-weight: bold; display: block; margin-bottom: 5px; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
-        .aura-bar-container {
-            height: 12px;
-            background: #333;
-            border-radius: 2px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .aura-fill { height: 100%; transition: width 0.4s ease-out; }
-        #p1-bar { background: linear-gradient(90deg, #00f0ff, #0088ff); box-shadow: 0 0 10px var(--secondary); }
-        #p2-bar { background: linear-gradient(90deg, #ff2a2a, #ff8800); box-shadow: 0 0 10px var(--primary); }
+        .player-name { font-weight: bold; display: block; margin-bottom: 5px; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #ccc; }
+        .player-name.active-turn { color: #fff; text-shadow: 0 0 5px white; }
 
-        .aura-value { font-size: 0.8rem; margin-top: 3px; display: block; color: #888; font-family: 'Orbitron'; }
+        .aura-bar-container { height: 8px; background: #222; border-radius: 2px; overflow: hidden; position: relative; }
+        .aura-fill { height: 100%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        #p1-bar { background: linear-gradient(90deg, #00f0ff, #0088ff); box-shadow: 0 0 8px var(--secondary); }
+        #p2-bar { background: linear-gradient(90deg, #ff2a2a, #ff8800); box-shadow: 0 0 8px var(--primary); }
         
-        .vs-logo { font-family: 'Orbitron'; font-size: 1.5rem; font-style: italic; color: #444; }
+        .aura-value { font-size: 0.75rem; margin-top: 3px; display: block; color: #666; font-family: 'Orbitron'; }
+        .vs-logo { font-family: 'Orbitron'; font-size: 1.2rem; font-style: italic; color: #333; }
 
-        /* Chat Zone */
+        /* Chat */
         #chat-box {
-            flex: 1;
-            overflow-y: auto;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            background-image: 
-                linear-gradient(rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.9)),
-                repeating-linear-gradient(0deg, transparent, transparent 1px, #111 1px, #111 2px);
+            flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px;
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                              repeating-linear-gradient(0deg, transparent, transparent 1px, #111 1px, #111 2px);
         }
 
-        /* Messages */
-        .message {
-            max-width: 80%;
-            padding: 10px 14px;
-            border-radius: 8px;
-            position: relative;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        .message { max-width: 85%; padding: 10px 12px; border-radius: 6px; position: relative; font-size: 0.9rem; line-height: 1.4; animation: slideUp 0.3s ease; word-wrap: break-word; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .sender-name { font-size: 0.7rem; display: block; margin-bottom: 3px; font-weight: bold; opacity: 0.8; }
 
-        .msg-p1 { 
-            align-self: flex-start; 
-            background: rgba(0, 240, 255, 0.1); 
-            border-left: 3px solid var(--secondary);
-            color: #ddd;
-        }
-        .msg-p2 { 
-            align-self: flex-end; 
-            background: rgba(255, 42, 42, 0.1); 
-            border-right: 3px solid var(--primary);
-            text-align: right;
-            color: #ddd;
-        }
+        .msg-p1 { align-self: flex-start; background: rgba(0, 240, 255, 0.08); border-left: 2px solid var(--secondary); color: #eee; }
+        .msg-p1 .sender-name { color: var(--secondary); }
+
+        .msg-p2 { align-self: flex-end; background: rgba(255, 42, 42, 0.08); border-right: 2px solid var(--primary); text-align: right; color: #eee; }
+        .msg-p2 .sender-name { color: var(--primary); }
+
+        .msg-spectator { align-self: center; background: transparent; color: #666; font-size: 0.8rem; border: 1px solid #222; text-align: center; }
         
-        .sender-name { font-size: 0.75rem; color: #666; display: block; margin-bottom: 2px; font-weight: bold; }
-
-        /* System / AI Messages */
         .msg-system {
-            align-self: center;
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            text-align: center;
-            font-family: 'Orbitron';
-            font-size: 0.8rem;
-            padding: 8px 15px;
-            margin: 10px 0;
-            box-shadow: 0 0 10px rgba(255, 42, 42, 0.1);
+            align-self: center; background: #111; border: 1px solid var(--primary); color: var(--primary);
+            text-align: center; font-family: 'Orbitron'; font-size: 0.8rem; padding: 8px 12px;
+            margin: 10px 0; box-shadow: 0 0 15px rgba(255, 42, 42, 0.1); width: 90%;
         }
 
-        /* Contrôles bas */
-        .controls-area {
-            padding: 15px;
-            background: var(--dark-panel);
-            border-top: 1px solid var(--panel-border);
-            display: flex;
-            gap: 10px;
+        /* Controls */
+        .controls-area { padding: 15px; background: var(--dark-panel); border-top: 1px solid #222; display: flex; gap: 10px; }
+        #message-input { flex: 1; text-align: left; padding-left: 15px; background: #080808; border-color: #333; }
+        .send-btn { width: 60px; font-size: 1.2rem; padding: 0; display: flex; align-items: center; justify-content: center; }
+
+        .spectator-controls { display: flex; width: 100%; gap: 8px; }
+        .btn-vote { flex: 1; font-size: 0.8rem; background: #222; border: 1px solid #444; color: #aaa; clip-path: none; padding: 12px 5px; }
+        .btn-vote:hover { background: #333; color: #fff; border-color: #666; }
+
+        /* Animation Overlay (Emojis) */
+        #overlay-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 100;
+        }
+        .floating-emoji {
+            position: absolute; bottom: -50px; font-size: 2rem;
+            animation: floatUp 2s linear forwards; opacity: 0;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 1; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-80vh) scale(1.5); opacity: 0; }
         }
 
-        #message-input {
-            flex: 1;
-            text-align: left;
-            padding-left: 15px;
-        }
-
-        .spectator-controls {
-            display: flex;
-            width: 100%;
-            gap: 10px;
-        }
-
-        .btn-vote { flex: 1; font-size: 0.9rem; background: #222; border: 1px solid #444; clip-path: none; }
-        .btn-vote:hover { background: #333; }
-
-        /* Animation secousse */
+        /* Shake Effect */
         .shake { animation: shake 0.5s; }
         @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
+            0% { transform: translateX(0); } 25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); }
         }
     </style>
 </head>
 <body>
 
-    <!-- === LOBBY SCREEN === -->
+    <!-- === ECRAN 1 : LOBBY === -->
     <div id="lobby-screen" class="screen active">
         <div class="glitch-wrapper">
             <div class="glitch-text" data-text="ROAST.ME">ROAST.ME</div>
@@ -279,64 +193,59 @@
         
         <div class="input-group">
             <input type="text" id="username" placeholder="TON NOM" maxlength="12" autocomplete="off">
-            <button onclick="window.findMatch()">TROUVER UN DUEL</button>
+            <button onclick="window.findMatch('play')">⚔️ COMBATTRE (JOUEUR)</button>
+            <button class="btn-secondary" onclick="window.findMatch('spectate')">👀 REGARDER (SPECTATEUR)</button>
         </div>
         <p class="status-text" id="lobby-status">● Connexion au serveur...</p>
     </div>
 
-    <!-- === ARENA SCREEN === -->
+    <!-- === ECRAN 2 : ARÈNE === -->
     <div id="arena-screen" class="screen">
-        
-        <!-- Barres d'Aura -->
+        <!-- Overlay pour les animations (emojis) -->
+        <div id="overlay-container"></div>
+
+        <!-- Header -->
         <div class="aura-header">
             <div class="player-stats">
                 <span class="player-name" id="p1-name">Joueur 1</span>
-                <div class="aura-bar-container">
-                    <div id="p1-bar" class="aura-fill" style="width: 100%;"></div>
-                </div>
+                <div class="aura-bar-container"><div id="p1-bar" class="aura-fill" style="width: 100%;"></div></div>
                 <span class="aura-value" id="p1-score">1000</span>
             </div>
-            
             <div class="vs-logo">VS</div>
-
             <div class="player-stats">
                 <span class="player-name" id="p2-name">Joueur 2</span>
-                <div class="aura-bar-container">
-                    <div id="p2-bar" class="aura-fill" style="width: 100%;"></div>
-                </div>
+                <div class="aura-bar-container"><div id="p2-bar" class="aura-fill" style="width: 100%;"></div></div>
                 <span class="aura-value" id="p2-score">1000</span>
             </div>
         </div>
 
         <!-- Chat -->
-        <div id="chat-box">
-            <div class="message msg-system">Bienvenue dans l'arène. Que le meilleur gagne.</div>
-        </div>
+        <div id="chat-box"></div>
 
-        <!-- Input Joueur -->
+        <!-- Contrôles Joueur -->
         <div id="player-controls" class="controls-area hidden">
-            <input type="text" id="message-input" placeholder="Écris ta punchline..." autocomplete="off">
-            <button onclick="window.sendMessage()" style="width: 80px;">→</button>
+            <input type="text" id="message-input" placeholder="Détruis-le..." autocomplete="off">
+            <button class="send-btn" onclick="window.sendMessage()">→</button>
         </div>
 
-        <!-- Input Spectateur -->
+        <!-- Contrôles Spectateur -->
         <div id="spectator-controls" class="controls-area hidden">
             <div class="spectator-controls">
-                <button class="btn-vote" onclick="window.voteReaction('🔥 BOOM')">🔥 C'EST CHAUD</button>
-                <button class="btn-vote" onclick="window.voteReaction('💀 GÊNANT')">💀 C'EST GÊNANT</button>
+                <input type="text" id="spec-input" placeholder="Commente le match..." style="flex:2; font-size:0.9rem;">
+                <button class="send-btn" onclick="window.sendSpectatorMessage()" style="width: 40px;">→</button>
+                <button class="btn-vote" onclick="window.voteReaction('🔥')">🔥</button>
+                <button class="btn-vote" onclick="window.voteReaction('💀')">💀</button>
             </div>
         </div>
-
     </div>
 
-    <!-- === JAVASCRIPT === -->
+    <!-- === LOGIQUE JAVASCRIPT === -->
     <script type="module">
-        // Import Firebase (version CDN module)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
         import { getDatabase, ref, set, push, onValue, update, runTransaction, get, onDisconnect } 
         from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
 
-        // Configuration Firebase (La tienne)
+        // --- CONFIGURATION FIREBASE ---
         const firebaseConfig = {
             apiKey: "AIzaSyBwDCPvgwzWb8mxSroebpUWwNGW45MQRTY",
             authDomain: "roast-me-6ec97.firebaseapp.com",
@@ -347,11 +256,10 @@
             measurementId: "G-MPDG0JP4Y8"
         };
 
-        // Initialisation
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Variables d'état
+        // --- ETAT GLOBAL ---
         let myPseudo = "";
         let currentRoomId = null;
         let myRole = "spectator"; // 'p1', 'p2', 'spectator'
@@ -362,58 +270,53 @@
 
         onValue(connectedRef, (snap) => {
             if (snap.val() === true) {
-                // L'utilisateur est connecté, on l'ajoute à la liste 'onlineUsers'
                 const con = push(onlineUsersRef);
-                
-                // Si l'utilisateur se déconnecte (ferme l'onglet), on le retire automatiquement
                 onDisconnect(con).remove();
-                
-                // On enregistre sa présence
                 set(con, true);
             }
         });
 
-        // Écouter le nombre de connectés
         onValue(onlineUsersRef, (snap) => {
-            const count = snap.size; // Nombre de clés dans onlineUsers
-            document.getElementById("lobby-status").innerText = `● ${count} personnes en ligne`;
+            document.getElementById("lobby-status").innerText = `● ${snap.size || 0} personnes connectées`;
         });
 
+        // --- MATCHMAKING & ROOMS ---
 
-        // --- MATCHMAKING ---
-
-        window.findMatch = async function() {
+        window.findMatch = async function(mode) {
             const input = document.getElementById("username");
             if (!input.value.trim()) {
                 input.style.borderColor = "red";
+                input.placeholder = "METS UN NOM !";
                 return;
             }
             myPseudo = input.value.trim();
 
-            // Changement d'écran
             document.getElementById("lobby-screen").classList.remove("active");
             document.getElementById("arena-screen").classList.add("active");
 
-            // Chercher une salle
             const roomsRef = ref(db, 'rooms');
-            
             const snapshot = await get(roomsRef);
-            let joined = false;
+            let rooms = snapshot.exists() ? snapshot.val() : {};
 
-            if (snapshot.exists()) {
-                const rooms = snapshot.val();
+            if (mode === 'spectate') {
+                // Trouver une room active
                 for (const [key, room] of Object.entries(rooms)) {
-                    if (room.status === "waiting") {
-                        // Rejoindre en tant que P2
-                        joinRoom(key, "p2");
-                        joined = true;
-                        break;
+                    if (room.status === "active" || room.status === "waiting") {
+                        joinRoom(key, "spectator");
+                        return;
                     }
                 }
-            }
-
-            if (!joined) {
-                // Créer une nouvelle salle
+                alert("Aucun match en cours. Tu vas créer une room.");
+                createRoom(); // Fallback
+            } 
+            else {
+                // Mode Joueur : Chercher place libre
+                for (const [key, room] of Object.entries(rooms)) {
+                    if (room.status === "waiting") {
+                        joinRoom(key, "p2");
+                        return;
+                    }
+                }
                 createRoom();
             }
         };
@@ -427,7 +330,8 @@
                 status: "waiting",
                 p1: { name: myPseudo, aura: 1000 },
                 p2: { name: "En attente...", aura: 1000 },
-                messages: {}
+                messages: {},
+                lastAction: Date.now()
             });
             setupArena();
         }
@@ -436,38 +340,42 @@
             currentRoomId = roomId;
             myRole = role;
             
-            update(ref(db, `rooms/${roomId}`), {
-                status: "active",
-                p2: { name: myPseudo, aura: 1000 }
-            });
+            if (role === "p2") {
+                update(ref(db, `rooms/${roomId}`), {
+                    status: "active",
+                    p2: { name: myPseudo, aura: 1000 }
+                });
+            }
             setupArena();
         }
 
         // --- ARENA LOGIC ---
 
         function setupArena() {
-            // UI Controls
-            if (myRole === 'p1' || myRole === 'p2') {
-                document.getElementById("player-controls").classList.remove("hidden");
-            } else {
+            // UI Setup
+            if (myRole === 'spectator') {
                 document.getElementById("spectator-controls").classList.remove("hidden");
-                // Mode spectateur (Si on n'est ni P1 ni P2, on pourrait logic rejoindre une room active random)
-                // Pour l'exemple, si on crée/joint, on est joueur. 
+                pushSystemMessage("👀 Vous regardez le match en mode spectateur.");
+            } else {
+                document.getElementById("player-controls").classList.remove("hidden");
+                
+                // Add Enter key support
+                document.getElementById("message-input").addEventListener("keypress", (e) => {
+                    if(e.key === 'Enter') window.sendMessage();
+                });
             }
 
-            // Sync avec Firebase
+            // Sync Database
             onValue(ref(db, `rooms/${currentRoomId}`), (snapshot) => {
                 const data = snapshot.val();
                 if (!data) return;
 
-                // Noms
+                // Sync Header
                 document.getElementById("p1-name").innerText = data.p1.name;
                 document.getElementById("p2-name").innerText = data.p2.name;
-
-                // Aura Bars
                 updateBars(data.p1.aura, data.p2.aura);
 
-                // Messages
+                // Sync Chat
                 renderChat(data.messages);
             });
         }
@@ -481,21 +389,15 @@
             
             document.getElementById("p2-bar").style.width = p2Pct + "%";
             document.getElementById("p2-score").innerText = aura2;
-
-            // Vérifier fin de partie
-            if (aura1 <= 0 || aura2 <= 0) {
-               // On pourrait ajouter un écran de Game Over ici
-            }
         }
 
-        // --- MESSAGING ---
+        // --- CHAT SYSTEM ---
 
         window.sendMessage = function() {
             const input = document.getElementById("message-input");
             const text = input.value.trim();
             if (!text) return;
 
-            // Envoyer le message
             push(ref(db, `rooms/${currentRoomId}/messages`), {
                 sender: myRole, // p1 ou p2
                 name: myPseudo,
@@ -504,18 +406,43 @@
             });
 
             input.value = "";
-
-            // Déclencher le jugement IA
-            triggerAIJudge(text, myRole);
+            
+            // Lancer l'IA Arbitre
+            runAIJudge(text, myRole);
         };
+
+        window.sendSpectatorMessage = function() {
+            const input = document.getElementById("spec-input");
+            const text = input.value.trim();
+            if (!text) return;
+
+            push(ref(db, `rooms/${currentRoomId}/messages`), {
+                sender: "spectator",
+                name: myPseudo,
+                text: text,
+                timestamp: Date.now()
+            });
+            input.value = "";
+        };
+
+        function pushSystemMessage(text) {
+            const chatBox = document.getElementById("chat-box");
+            const div = document.createElement("div");
+            div.className = "message msg-system";
+            div.innerText = text;
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
 
         function renderChat(messages) {
             const chatBox = document.getElementById("chat-box");
-            chatBox.innerHTML = ""; // Clean et rebuild (simple pour MVP)
+            chatBox.innerHTML = ""; 
 
-            if (!messages) return;
+            if (!messages) {
+                chatBox.innerHTML = '<div class="message msg-system">En attente d\'un adversaire...</div>';
+                return;
+            }
 
-            // Convertir objet en tableau et trier
             const sortedMsgs = Object.values(messages).sort((a, b) => a.timestamp - b.timestamp);
 
             sortedMsgs.forEach(msg => {
@@ -523,73 +450,119 @@
                 
                 if (msg.sender === "system") {
                     div.className = "message msg-system shake";
-                    div.innerHTML = `<strong>IA JUDGE:</strong> ${msg.text}`;
-                } else {
+                    div.innerHTML = `<strong>⚖️ Juge IA :</strong><br>${msg.text}`;
+                    
+                    // Si c'est un vote, déclencher animation
+                    if(msg.text.includes("BOOM")) triggerVisualEffect("🔥");
+                    if(msg.text.includes("GÊNANT")) triggerVisualEffect("💀");
+                } 
+                else if (msg.sender === "spectator") {
+                    div.className = "message msg-spectator";
+                    div.innerHTML = `<strong>${msg.name}:</strong> ${msg.text}`;
+                }
+                else {
                     div.className = `message ${msg.sender === 'p1' ? 'msg-p1' : 'msg-p2'}`;
                     div.innerHTML = `<span class="sender-name">${msg.name}</span>${msg.text}`;
                 }
                 
                 chatBox.appendChild(div);
             });
-
-            // Scroll auto en bas
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        // --- SPECTATOR & AI LOGIC ---
+        // --- SPECTATOR VOTES & EFFECTS ---
 
-        window.voteReaction = function(reactionType) {
-            // Les spectateurs influencent le match
-            // On envoie un message système pour l'ambiance
+        window.voteReaction = function(emoji) {
+            // Un vote ne s'envoie que toutes les 2s max pour éviter le spam
+            const now = Date.now();
+            if (window.lastVote && now - window.lastVote < 2000) return;
+            window.lastVote = now;
+
             push(ref(db, `rooms/${currentRoomId}/messages`), {
                 sender: "system",
-                text: `Le public crie ${reactionType} !!!`,
-                timestamp: Date.now()
+                text: `Le public crie ${emoji} !!!`,
+                timestamp: now
             });
-
-            // Si c'est "BOOM" ou "L", on pourrait enlever un peu d'Aura aux deux pour le chaos
-            // Ici on simplifie : juste de l'animation visuelle
         };
 
-        function triggerAIJudge(text, attackerRole) {
-            // SIMULATION IA (Côté Client pour le MVP)
-            // Dans une vraie app, ça serait une Cloud Function sécurisée.
-            
+        function triggerVisualEffect(emoji) {
+            const container = document.getElementById("overlay-container");
+            for(let i=0; i<10; i++) {
+                const el = document.createElement("div");
+                el.innerText = emoji;
+                el.className = "floating-emoji";
+                el.style.left = Math.random() * 100 + "%";
+                el.style.animationDuration = (1.5 + Math.random()) + "s";
+                el.style.fontSize = (1.5 + Math.random()) + "rem";
+                container.appendChild(el);
+                
+                // Cleanup
+                setTimeout(() => el.remove(), 2500);
+            }
+        }
+
+        // --- AI JUDGE ENGINE (SIMULATION LOCALE) ---
+        // Simule une IA sans exposer de clé API backend
+        
+        function runAIJudge(text, attackerRole) {
             const targetRole = attackerRole === 'p1' ? 'p2' : 'p1';
+            const lower = text.toLowerCase();
             let damage = 0;
             let comment = "";
-            const lower = text.toLowerCase();
 
-            // Algorithme "Aura" basique
-            if (lower.includes("mère") || lower.includes("maman")) {
-                damage = 10;
-                comment = "Attaque sur la daronne ? Basique. (-10)";
-            } else if (text.length > 25 && (lower.includes("tête") || lower.includes("style") || lower.includes("prof"))) {
+            // 1. Détection Mots Interdits (Filtre)
+            const badWords = ["suicide", "mort", "tuer", "pute", "pd", "salope"];
+            if (badWords.some(w => lower.includes(w))) {
+                comment = "🚫 CLASH REFUSÉ. Trop violent / Interdit.";
+                damage = 0; // Pas de dégâts, mais avertissement
+            }
+            // 2. Détection "Classiques Collège" (Bonus)
+            else if (lower.includes("mère") || lower.includes("maman") || lower.includes("daronne")) {
+                damage = 15;
+                comment = "Attaque 'Maman' ? Un classique, mais peu original. (-15)";
+            }
+            else if (lower.includes("coiffeur") || lower.includes("cheveux") || lower.includes("coupe")) {
+                damage = 30;
+                comment = "Angle d'attaque capillaire validé. (-30)";
+            }
+            else if (lower.includes("chomage") || lower.includes("redoubler") || lower.includes("notes") || lower.includes("segpa")) {
                 damage = 40;
-                comment = "C'est précis, ça fait mal. (-40)";
-            } else if (text.length < 5) {
-                damage = 0;
-                comment = "Trop court, fais un effort. (0)";
-            } else {
+                comment = "Aïe, ça tape sur l'avenir scolaire. Violent. (-40)";
+            }
+            else if (lower.includes("crush") || lower.includes("ex") || lower.includes("rateau")) {
+                damage = 50;
+                comment = "COUP CRITIQUE SENTIMENTAL ! (-50)";
+            }
+            // 3. Analyse Structurelle
+            else if (text.length < 6) {
+                damage = 5;
+                comment = "C'est tout ? Fais un effort. (-5)";
+            }
+            else if (text.length > 50) {
+                damage = 35;
+                comment = "Belle construction, argumentation solide. (-35)";
+            }
+            else {
                 damage = 20;
-                comment = "Petit tacle correct. (-20)";
+                comment = "Clash valide. (-20)";
             }
 
-            // Appliquer dégâts si > 0
-            if (damage > 0) {
+            // Appliquer les dégâts après un délai "de réflexion"
+            if (damage > 0 || comment !== "") {
                 setTimeout(() => {
-                    const targetRef = ref(db, `rooms/${currentRoomId}/${targetRole}/aura`);
-                    runTransaction(targetRef, (currentAura) => {
-                        return (currentAura || 1000) - damage;
-                    });
-                    
-                    // Message du juge
+                    // Réduire l'Aura
+                    if (damage > 0) {
+                        const targetRef = ref(db, `rooms/${currentRoomId}/${targetRole}/aura`);
+                        runTransaction(targetRef, (aura) => (aura || 1000) - damage);
+                    }
+
+                    // Poster le verdict
                     push(ref(db, `rooms/${currentRoomId}/messages`), {
                         sender: "system",
                         text: `${comment}`,
-                        timestamp: Date.now() + 100
+                        timestamp: Date.now()
                     });
-                }, 1000); // Délai dramatique
+                }, 1500);
             }
         }
     </script>
