@@ -11,9 +11,8 @@
         /* --- CSS STYLES --- */
         :root {
             --bg: #050505;
-            --primary: #ff2a2a; /* P2 Color */
-            --secondary: #00f0ff; /* P1 Color */
-            --spectator: #888888;
+            --primary: #ff2a2a; /* Rouge néon */
+            --secondary: #00f0ff; /* Bleu néon */
             --text: #ffffff;
             --dark-panel: #111111;
             --panel-border: #333;
@@ -36,7 +35,7 @@
         .screen.active { display: flex; }
         .hidden { display: none !important; }
 
-        /* --- LOBBY SCREEN --- */
+        /* --- LOBBY SCREEN (LOGIN) --- */
         #lobby-screen {
             justify-content: center;
             align-items: center;
@@ -45,40 +44,14 @@
             padding: 20px;
         }
 
-        .glitch-wrapper { margin-bottom: 30px; }
         .glitch-text {
             font-family: 'Orbitron', sans-serif;
             font-size: 3.5rem;
             font-weight: bold;
             color: var(--text);
             text-transform: uppercase;
-            position: relative;
-            display: inline-block;
+            margin-bottom: 20px;
         }
-        .glitch-text::before, .glitch-text::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%; background: var(--bg);
-        }
-        .glitch-text::before {
-            left: 2px; text-shadow: -2px 0 var(--primary); clip: rect(24px, 550px, 90px, 0);
-            animation: glitch-anim-2 3s infinite linear alternate-reverse;
-        }
-        .glitch-text::after {
-            left: -2px; text-shadow: -2px 0 var(--secondary); clip: rect(85px, 550px, 140px, 0);
-            animation: glitch-anim 2.5s infinite linear alternate-reverse;
-        }
-
-        @keyframes glitch-anim {
-            0% { clip: rect(10px, 9999px, 30px, 0); transform: skew(0.65deg); }
-            100% { clip: rect(60px, 9999px, 80px, 0); transform: skew(0.3deg); }
-        }
-        @keyframes glitch-anim-2 {
-            0% { clip: rect(80px, 9999px, 100px, 0); transform: skew(0.8deg); }
-            100% { clip: rect(10px, 9999px, 40px, 0); transform: skew(0.2deg); }
-        }
-
-        .subtitle { color: #888; font-size: 1rem; letter-spacing: 3px; margin-bottom: 40px; text-transform: uppercase; }
 
         .input-group { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 320px; }
 
@@ -91,131 +64,134 @@
         }
         input:focus { border-color: var(--secondary); box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
 
-        button {
-            padding: 15px; border: none; border-radius: 4px; background: var(--primary);
-            color: white; font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 1rem;
-            cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s;
+        /* Bouton Principal (Entrer / Roaster) */
+        .btn-main {
+            padding: 20px; border: none; border-radius: 4px; background: var(--primary);
+            color: white; font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 1.2rem;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.2s;
             clip-path: polygon(5% 0, 100% 0, 100% 80%, 95% 100%, 0 100%, 0 20%);
+            box-shadow: 0 0 20px rgba(255, 42, 42, 0.3);
         }
-        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 42, 42, 0.4); }
-        button:active { transform: scale(0.98); }
+        .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 42, 42, 0.6); }
+        .btn-main:active { transform: scale(0.95); }
 
-        .btn-secondary { background: #333; clip-path: polygon(0 0, 95% 0, 100% 20%, 100% 100%, 5% 100%, 0 80%); }
-        .btn-secondary:hover { background: #444; box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1); }
+        /* --- DASHBOARD SCREEN (HALL) --- */
+        #dashboard-screen {
+            padding: 20px;
+            background: #080808;
+        }
 
-        .status-text { margin-top: 20px; color: #555; font-size: 0.8rem; }
+        .dashboard-header {
+            display: flex; flex-direction: column; align-items: center; gap: 20px; margin-bottom: 30px;
+        }
+
+        .user-welcome { color: #888; font-size: 0.9rem; font-family: 'Orbitron'; }
+
+        /* Le GROS bouton ROASTER */
+        #btn-roast-now {
+            width: 100%; max-width: 400px; height: 80px; font-size: 1.8rem;
+            background: linear-gradient(45deg, #ff2a2a, #ff0000);
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 42, 42, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0); }
+        }
+
+        .list-title { color: var(--secondary); font-family: 'Orbitron'; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+
+        /* Liste des rooms */
+        #room-list {
+            flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;
+        }
+
+        .room-card {
+            background: #111; border: 1px solid #333; padding: 15px; border-radius: 6px;
+            display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+            transition: 0.2s;
+        }
+        .room-card:hover { border-color: var(--secondary); background: #1a1a1a; }
+
+        .room-info { display: flex; flex-direction: column; gap: 5px; }
+        .room-vs { font-weight: bold; color: #fff; font-size: 1rem; }
+        .room-vs span { color: #888; }
+        .room-specs { color: #666; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; }
+
+        .live-tag { background: red; color: white; padding: 2px 6px; font-size: 0.7rem; border-radius: 2px; font-weight: bold; }
 
         /* --- ARENA SCREEN --- */
         #arena-screen { background: #000; position: relative; }
-
-        /* Header Aura */
-        .aura-header {
-            background: var(--dark-panel); padding: 10px; border-bottom: 1px solid var(--panel-border);
-            display: flex; justify-content: space-between; align-items: center; z-index: 10;
-        }
-        .player-stats { width: 42%; text-align: center; }
-        .player-name { font-weight: bold; display: block; margin-bottom: 5px; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #ccc; }
-        .player-name.active-turn { color: #fff; text-shadow: 0 0 5px white; }
-
-        .aura-bar-container { height: 8px; background: #222; border-radius: 2px; overflow: hidden; position: relative; }
-        .aura-fill { height: 100%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        #p1-bar { background: linear-gradient(90deg, #00f0ff, #0088ff); box-shadow: 0 0 8px var(--secondary); }
-        #p2-bar { background: linear-gradient(90deg, #ff2a2a, #ff8800); box-shadow: 0 0 8px var(--primary); }
+        .aura-header { background: var(--dark-panel); padding: 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+        .player-stats { width: 40%; text-align: center; }
+        .aura-bar-container { height: 6px; background: #222; border-radius: 2px; overflow: hidden; margin-top: 5px; }
+        .aura-fill { height: 100%; transition: width 0.5s; }
+        #p1-bar { background: var(--secondary); }
+        #p2-bar { background: var(--primary); }
         
-        .aura-value { font-size: 0.75rem; margin-top: 3px; display: block; color: #666; font-family: 'Orbitron'; }
-        .vs-logo { font-family: 'Orbitron'; font-size: 1.2rem; font-style: italic; color: #333; }
+        #chat-box { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .message { padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; max-width: 85%; word-wrap: break-word; }
+        .msg-system { align-self: center; background: #111; border: 1px solid var(--primary); color: var(--primary); text-align: center; font-size: 0.8rem; }
+        .msg-p1 { align-self: flex-start; border-left: 2px solid var(--secondary); background: rgba(0, 240, 255, 0.1); color: #ddd; }
+        .msg-p2 { align-self: flex-end; border-right: 2px solid var(--primary); background: rgba(255, 42, 42, 0.1); text-align: right; color: #ddd; }
+        .msg-spectator { align-self: center; color: #666; font-size: 0.8rem; border: 1px solid #333; }
 
-        /* Chat */
-        #chat-box {
-            flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px;
-            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
-                              repeating-linear-gradient(0deg, transparent, transparent 1px, #111 1px, #111 2px);
-        }
+        .controls-area { padding: 10px; background: #111; display: flex; gap: 10px; }
+        #message-input, #spec-input { flex: 1; padding: 10px; background: #000; border: 1px solid #333; color: white; outline: none; }
+        .send-btn { width: 50px; background: var(--secondary); border: none; color: black; font-weight: bold; cursor: pointer; }
+        .back-btn { background: transparent; color: #666; border: 1px solid #333; padding: 5px 10px; font-size: 0.8rem; cursor: pointer; margin-right: 10px; }
 
-        .message { max-width: 85%; padding: 10px 12px; border-radius: 6px; position: relative; font-size: 0.9rem; line-height: 1.4; animation: slideUp 0.3s ease; word-wrap: break-word; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .sender-name { font-size: 0.7rem; display: block; margin-bottom: 3px; font-weight: bold; opacity: 0.8; }
-
-        .msg-p1 { align-self: flex-start; background: rgba(0, 240, 255, 0.08); border-left: 2px solid var(--secondary); color: #eee; }
-        .msg-p1 .sender-name { color: var(--secondary); }
-
-        .msg-p2 { align-self: flex-end; background: rgba(255, 42, 42, 0.08); border-right: 2px solid var(--primary); text-align: right; color: #eee; }
-        .msg-p2 .sender-name { color: var(--primary); }
-
-        .msg-spectator { align-self: center; background: transparent; color: #666; font-size: 0.8rem; border: 1px solid #222; text-align: center; }
-        
-        .msg-system {
-            align-self: center; background: #111; border: 1px solid var(--primary); color: var(--primary);
-            text-align: center; font-family: 'Orbitron'; font-size: 0.8rem; padding: 8px 12px;
-            margin: 10px 0; box-shadow: 0 0 15px rgba(255, 42, 42, 0.1); width: 90%;
-        }
-
-        /* Controls */
-        .controls-area { padding: 15px; background: var(--dark-panel); border-top: 1px solid #222; display: flex; gap: 10px; }
-        #message-input { flex: 1; text-align: left; padding-left: 15px; background: #080808; border-color: #333; }
-        .send-btn { width: 60px; font-size: 1.2rem; padding: 0; display: flex; align-items: center; justify-content: center; }
-
-        .spectator-controls { display: flex; width: 100%; gap: 8px; }
-        .btn-vote { flex: 1; font-size: 0.8rem; background: #222; border: 1px solid #444; color: #aaa; clip-path: none; padding: 12px 5px; }
-        .btn-vote:hover { background: #333; color: #fff; border-color: #666; }
-
-        /* Animation Overlay (Emojis) */
-        #overlay-container {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 100;
-        }
-        .floating-emoji {
-            position: absolute; bottom: -50px; font-size: 2rem;
-            animation: floatUp 2s linear forwards; opacity: 0;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(0.5); opacity: 1; }
-            80% { opacity: 0.8; }
-            100% { transform: translateY(-80vh) scale(1.5); opacity: 0; }
-        }
-
-        /* Shake Effect */
-        .shake { animation: shake 0.5s; }
-        @keyframes shake {
-            0% { transform: translateX(0); } 25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); }
-        }
+        /* Overlay Emojis */
+        #overlay-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; }
+        .floating-emoji { position: absolute; font-size: 2rem; animation: floatUp 2s linear forwards; opacity: 0; }
+        @keyframes floatUp { 0% { transform: translateY(0) scale(0.5); opacity: 1; } 100% { transform: translateY(-80vh) scale(1.5); opacity: 0; } }
     </style>
 </head>
 <body>
 
-    <!-- === ECRAN 1 : LOBBY === -->
+    <!-- === ECRAN 1 : LOBBY (LOGIN) === -->
     <div id="lobby-screen" class="screen active">
-        <div class="glitch-wrapper">
-            <div class="glitch-text" data-text="ROAST.ME">ROAST.ME</div>
-        </div>
-        <p class="subtitle">CLASH • AURA • CHAOS</p>
+        <div class="glitch-text">ROAST.ME</div>
         
         <div class="input-group">
-            <input type="text" id="username" placeholder="TON NOM" maxlength="12" autocomplete="off">
-            <button onclick="window.findMatch('play')">⚔️ COMBATTRE (JOUEUR)</button>
-            <button class="btn-secondary" onclick="window.findMatch('spectate')">👀 REGARDER (SPECTATEUR)</button>
+            <input type="text" id="username" placeholder="TON BLAZE" maxlength="12" autocomplete="off">
+            <button class="btn-main" onclick="enterApp()">ENTRER</button>
         </div>
-        <p class="status-text" id="lobby-status">● Connexion au serveur...</p>
+        <p class="status-text" id="server-status">Connexion au serveur...</p>
     </div>
 
-    <!-- === ECRAN 2 : ARÈNE === -->
+    <!-- === ECRAN 2 : DASHBOARD (LE HALL) === -->
+    <div id="dashboard-screen" class="screen">
+        <div class="dashboard-header">
+            <div class="user-welcome">CONNECTÉ EN TANT QUE <span id="display-username" style="color:white; font-weight:bold;"></span></div>
+            
+            <!-- LE GROS BOUTON ROUGE -->
+            <button id="btn-roast-now" class="btn-main" onclick="startMatchmaking()">🔥 ROASTER</button>
+        </div>
+
+        <div class="list-title">CONVERSATIONS EN COURS</div>
+        <div id="room-list">
+            <!-- La liste des duels s'affiche ici via JS -->
+            <div style="color: #444; text-align: center; margin-top: 20px;">Chargement des duels...</div>
+        </div>
+    </div>
+
+    <!-- === ECRAN 3 : ARÈNE (COMBAT OU SPECTATEUR) === -->
     <div id="arena-screen" class="screen">
-        <!-- Overlay pour les animations (emojis) -->
         <div id="overlay-container"></div>
 
         <!-- Header -->
         <div class="aura-header">
+            <button class="back-btn" onclick="leaveArena()">QUITTER</button>
             <div class="player-stats">
-                <span class="player-name" id="p1-name">Joueur 1</span>
+                <span id="p1-name" style="font-size:0.8rem; color:var(--secondary);">P1</span>
                 <div class="aura-bar-container"><div id="p1-bar" class="aura-fill" style="width: 100%;"></div></div>
-                <span class="aura-value" id="p1-score">1000</span>
             </div>
-            <div class="vs-logo">VS</div>
+            <div style="font-family:'Orbitron'; font-style:italic; color:#444;">VS</div>
             <div class="player-stats">
-                <span class="player-name" id="p2-name">Joueur 2</span>
+                <span id="p2-name" style="font-size:0.8rem; color:var(--primary);">P2</span>
                 <div class="aura-bar-container"><div id="p2-bar" class="aura-fill" style="width: 100%;"></div></div>
-                <span class="aura-value" id="p2-score">1000</span>
             </div>
         </div>
 
@@ -224,99 +200,142 @@
 
         <!-- Contrôles Joueur -->
         <div id="player-controls" class="controls-area hidden">
-            <input type="text" id="message-input" placeholder="Détruis-le..." autocomplete="off">
-            <button class="send-btn" onclick="window.sendMessage()">→</button>
+            <input type="text" id="message-input" placeholder="Ta punchline..." autocomplete="off">
+            <button class="send-btn" onclick="sendMessage()">→</button>
         </div>
 
         <!-- Contrôles Spectateur -->
         <div id="spectator-controls" class="controls-area hidden">
-            <div class="spectator-controls">
-                <input type="text" id="spec-input" placeholder="Commente le match..." style="flex:2; font-size:0.9rem;">
-                <button class="send-btn" onclick="window.sendSpectatorMessage()" style="width: 40px;">→</button>
-                <button class="btn-vote" onclick="window.voteReaction('🔥')">🔥</button>
-                <button class="btn-vote" onclick="window.voteReaction('💀')">💀</button>
-            </div>
+            <input type="text" id="spec-input" placeholder="Commente..." style="flex:2;">
+            <button class="send-btn" onclick="sendSpectatorMessage()">→</button>
+            <button onclick="voteReaction('🔥')" style="background:none; border:1px solid #333; color:white; cursor:pointer;">🔥</button>
+            <button onclick="voteReaction('💀')" style="background:none; border:1px solid #333; color:white; cursor:pointer;">💀</button>
         </div>
     </div>
 
-    <!-- === LOGIQUE JAVASCRIPT === -->
+    <!-- === JAVASCRIPT === -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-        import { getDatabase, ref, set, push, onValue, update, runTransaction, get, onDisconnect } 
+        import { getDatabase, ref, set, push, onValue, update, runTransaction, get, onDisconnect, remove } 
         from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
 
-        // --- CONFIGURATION FIREBASE ---
+        // CONFIG EURO
         const firebaseConfig = {
             apiKey: "AIzaSyBwDCPvgwzWb8mxSroebpUWwNGW45MQRTY",
             authDomain: "roast-me-6ec97.firebaseapp.com",
             projectId: "roast-me-6ec97",
+            databaseURL: "https://roast-me-6ec97-default-rtdb.europe-west1.firebasedatabase.app",
             storageBucket: "roast-me-6ec97.firebasestorage.app",
             messagingSenderId: "206022241999",
-            appId: "1:206022241999:web:d1fc0d73e7a412892491ba",
-            measurementId: "G-MPDG0JP4Y8"
+            appId: "1:206022241999:web:d1fc0d73e7a412892491ba"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // --- ETAT GLOBAL ---
+        // GLOBALS
         let myPseudo = "";
         let currentRoomId = null;
         let myRole = "spectator"; // 'p1', 'p2', 'spectator'
+        
+        // --- 1. LOBBY & NAVIGATION ---
 
-        // --- PRESENCE SYSTEM (Compteur Live) ---
-        const connectedRef = ref(db, ".info/connected");
-        const onlineUsersRef = ref(db, "onlineUsers");
-
-        onValue(connectedRef, (snap) => {
-            if (snap.val() === true) {
-                const con = push(onlineUsersRef);
-                onDisconnect(con).remove();
-                set(con, true);
-            }
-        });
-
-        onValue(onlineUsersRef, (snap) => {
-            document.getElementById("lobby-status").innerText = `● ${snap.size || 0} personnes connectées`;
-        });
-
-        // --- MATCHMAKING & ROOMS ---
-
-        window.findMatch = async function(mode) {
+        window.enterApp = function() {
             const input = document.getElementById("username");
-            if (!input.value.trim()) {
-                input.style.borderColor = "red";
-                input.placeholder = "METS UN NOM !";
-                return;
-            }
+            if (!input.value.trim()) return alert("Mets un pseudo !");
+            
             myPseudo = input.value.trim();
+            document.getElementById("display-username").innerText = myPseudo;
 
+            // Switch Screen
             document.getElementById("lobby-screen").classList.remove("active");
+            document.getElementById("dashboard-screen").classList.add("active");
+
+            // Lancer l'écoute des salles pour le Hall
+            listenToRooms();
+        };
+
+        window.leaveArena = function() {
+            if (currentRoomId && myRole === 'spectator') {
+                // Decrement spectator count on leave
+                const specRef = ref(db, `rooms/${currentRoomId}/spectators`);
+                runTransaction(specRef, (count) => (count || 0) - 1);
+            }
+            
+            currentRoomId = null;
+            document.getElementById("arena-screen").classList.remove("active");
+            document.getElementById("dashboard-screen").classList.add("active");
+        };
+
+        // --- 2. DASHBOARD : LISTE DES SALLES ---
+
+        function listenToRooms() {
+            const roomsRef = ref(db, 'rooms');
+            onValue(roomsRef, (snapshot) => {
+                const listDiv = document.getElementById("room-list");
+                listDiv.innerHTML = ""; // Clear
+
+                if (!snapshot.exists()) {
+                    listDiv.innerHTML = "<div style='text-align:center; color:#666;'>Aucun duel en cours. Lance-en un !</div>";
+                    return;
+                }
+
+                const rooms = snapshot.val();
+                // Trier par timestamp si possible, ici on prend tout
+                Object.entries(rooms).forEach(([key, room]) => {
+                    // On n'affiche que les salles actives ou en attente
+                    if (room.status === "finished") return; 
+
+                    const p1 = room.p1 ? room.p1.name : "?";
+                    const p2 = room.p2 ? room.p2.name : (room.status === 'waiting' ? "En recherche..." : "?");
+                    const specs = room.spectators || 0;
+                    const isWaiting = room.status === 'waiting';
+
+                    const card = document.createElement("div");
+                    card.className = "room-card";
+                    card.innerHTML = `
+                        <div class="room-info">
+                            <div class="room-vs">${p1} <span style="font-size:0.8rem">VS</span> ${p2}</div>
+                            <div class="room-specs">👁️ ${specs} spectateurs ${isWaiting ? '(En attente)' : '<span class="live-tag">LIVE</span>'}</div>
+                        </div>
+                        <div style="color:var(--secondary); font-size:1.5rem;">▶</div>
+                    `;
+                    
+                    // Click -> Mode Spectateur
+                    card.onclick = () => joinAsSpectator(key);
+                    listDiv.appendChild(card);
+                });
+            });
+        }
+
+        // --- 3. MATCHMAKING (ROASTER) ---
+
+        window.startMatchmaking = async function() {
+            // Passer en écran Arène en mode "Loading"
+            document.getElementById("dashboard-screen").classList.remove("active");
             document.getElementById("arena-screen").classList.add("active");
+            document.getElementById("chat-box").innerHTML = '<div class="message msg-system">Recherche d\'un adversaire...</div>';
+            
+            // Masquer les contrôles le temps de trouver
+            document.getElementById("player-controls").classList.add("hidden");
+            document.getElementById("spectator-controls").classList.add("hidden");
 
             const roomsRef = ref(db, 'rooms');
             const snapshot = await get(roomsRef);
-            let rooms = snapshot.exists() ? snapshot.val() : {};
+            let joined = false;
 
-            if (mode === 'spectate') {
-                // Trouver une room active
-                for (const [key, room] of Object.entries(rooms)) {
-                    if (room.status === "active" || room.status === "waiting") {
-                        joinRoom(key, "spectator");
-                        return;
-                    }
-                }
-                alert("Aucun match en cours. Tu vas créer une room.");
-                createRoom(); // Fallback
-            } 
-            else {
-                // Mode Joueur : Chercher place libre
+            if (snapshot.exists()) {
+                const rooms = snapshot.val();
                 for (const [key, room] of Object.entries(rooms)) {
                     if (room.status === "waiting") {
-                        joinRoom(key, "p2");
-                        return;
+                        joinAsPlayer(key, "p2");
+                        joined = true;
+                        break;
                     }
                 }
+            }
+
+            if (!joined) {
                 createRoom();
             }
         };
@@ -331,240 +350,177 @@
                 p1: { name: myPseudo, aura: 1000 },
                 p2: { name: "En attente...", aura: 1000 },
                 messages: {},
-                lastAction: Date.now()
+                spectators: 0,
+                createdAt: Date.now()
             });
-            setupArena();
+            setupArenaUI();
         }
 
-        function joinRoom(roomId, role) {
+        function joinAsPlayer(roomId, role) {
             currentRoomId = roomId;
             myRole = role;
             
-            if (role === "p2") {
-                update(ref(db, `rooms/${roomId}`), {
-                    status: "active",
-                    p2: { name: myPseudo, aura: 1000 }
-                });
-            }
-            setupArena();
+            update(ref(db, `rooms/${roomId}`), {
+                status: "active",
+                p2: { name: myPseudo, aura: 1000 }
+            });
+            setupArenaUI();
         }
 
-        // --- ARENA LOGIC ---
+        window.joinAsSpectator = function(roomId) {
+            currentRoomId = roomId;
+            myRole = "spectator";
+            
+            // Increment spectator count
+            const specRef = ref(db, `rooms/${roomId}/spectators`);
+            runTransaction(specRef, (count) => (count || 0) + 1);
 
-        function setupArena() {
-            // UI Setup
+            // Switch UI
+            document.getElementById("dashboard-screen").classList.remove("active");
+            document.getElementById("arena-screen").classList.add("active");
+            
+            setupArenaUI();
+        };
+
+        // --- 4. ARENA LOGIC ---
+
+        function setupArenaUI() {
+            const pCtrl = document.getElementById("player-controls");
+            const sCtrl = document.getElementById("spectator-controls");
+
             if (myRole === 'spectator') {
-                document.getElementById("spectator-controls").classList.remove("hidden");
-                pushSystemMessage("👀 Vous regardez le match en mode spectateur.");
+                pCtrl.classList.add("hidden");
+                sCtrl.classList.remove("hidden");
+                pushSystemMsg("Vous regardez ce match.");
             } else {
-                document.getElementById("player-controls").classList.remove("hidden");
-                
-                // Add Enter key support
-                document.getElementById("message-input").addEventListener("keypress", (e) => {
-                    if(e.key === 'Enter') window.sendMessage();
-                });
+                sCtrl.classList.add("hidden");
+                pCtrl.classList.remove("hidden");
+                // Attacher Enter key
+                document.getElementById("message-input").onkeypress = (e) => { if(e.key==='Enter') sendMessage(); };
             }
 
-            // Sync Database
+            // Sync Realtime
             onValue(ref(db, `rooms/${currentRoomId}`), (snapshot) => {
                 const data = snapshot.val();
-                if (!data) return;
+                if (!data) return; // Room deleted?
 
-                // Sync Header
+                // Names & Aura
                 document.getElementById("p1-name").innerText = data.p1.name;
                 document.getElementById("p2-name").innerText = data.p2.name;
-                updateBars(data.p1.aura, data.p2.aura);
+                
+                const p1Pct = Math.max(0, data.p1.aura / 10);
+                const p2Pct = Math.max(0, data.p2.aura / 10);
+                document.getElementById("p1-bar").style.width = p1Pct + "%";
+                document.getElementById("p2-bar").style.width = p2Pct + "%";
 
-                // Sync Chat
+                // Chat
                 renderChat(data.messages);
             });
         }
 
-        function updateBars(aura1, aura2) {
-            const p1Pct = Math.max(0, aura1 / 10);
-            const p2Pct = Math.max(0, aura2 / 10);
-            
-            document.getElementById("p1-bar").style.width = p1Pct + "%";
-            document.getElementById("p1-score").innerText = aura1;
-            
-            document.getElementById("p2-bar").style.width = p2Pct + "%";
-            document.getElementById("p2-score").innerText = aura2;
-        }
-
-        // --- CHAT SYSTEM ---
+        // --- 5. CHAT & IA ---
 
         window.sendMessage = function() {
             const input = document.getElementById("message-input");
             const text = input.value.trim();
-            if (!text) return;
-
-            push(ref(db, `rooms/${currentRoomId}/messages`), {
-                sender: myRole, // p1 ou p2
-                name: myPseudo,
-                text: text,
-                timestamp: Date.now()
-            });
-
-            input.value = "";
+            if(!text) return;
             
-            // Lancer l'IA Arbitre
+            push(ref(db, `rooms/${currentRoomId}/messages`), {
+                sender: myRole, name: myPseudo, text: text, timestamp: Date.now()
+            });
+            input.value = "";
             runAIJudge(text, myRole);
         };
 
         window.sendSpectatorMessage = function() {
             const input = document.getElementById("spec-input");
             const text = input.value.trim();
-            if (!text) return;
+            if(!text) return;
 
             push(ref(db, `rooms/${currentRoomId}/messages`), {
-                sender: "spectator",
-                name: myPseudo,
-                text: text,
-                timestamp: Date.now()
+                sender: "spectator", name: myPseudo, text: text, timestamp: Date.now()
             });
             input.value = "";
         };
 
-        function pushSystemMessage(text) {
-            const chatBox = document.getElementById("chat-box");
-            const div = document.createElement("div");
-            div.className = "message msg-system";
-            div.innerText = text;
-            chatBox.appendChild(div);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        function renderChat(messages) {
-            const chatBox = document.getElementById("chat-box");
-            chatBox.innerHTML = ""; 
-
-            if (!messages) {
-                chatBox.innerHTML = '<div class="message msg-system">En attente d\'un adversaire...</div>';
-                return;
-            }
-
-            const sortedMsgs = Object.values(messages).sort((a, b) => a.timestamp - b.timestamp);
-
-            sortedMsgs.forEach(msg => {
-                const div = document.createElement("div");
-                
-                if (msg.sender === "system") {
-                    div.className = "message msg-system shake";
-                    div.innerHTML = `<strong>⚖️ Juge IA :</strong><br>${msg.text}`;
-                    
-                    // Si c'est un vote, déclencher animation
-                    if(msg.text.includes("BOOM")) triggerVisualEffect("🔥");
-                    if(msg.text.includes("GÊNANT")) triggerVisualEffect("💀");
-                } 
-                else if (msg.sender === "spectator") {
-                    div.className = "message msg-spectator";
-                    div.innerHTML = `<strong>${msg.name}:</strong> ${msg.text}`;
-                }
-                else {
-                    div.className = `message ${msg.sender === 'p1' ? 'msg-p1' : 'msg-p2'}`;
-                    div.innerHTML = `<span class="sender-name">${msg.name}</span>${msg.text}`;
-                }
-                
-                chatBox.appendChild(div);
-            });
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        // --- SPECTATOR VOTES & EFFECTS ---
-
         window.voteReaction = function(emoji) {
-            // Un vote ne s'envoie que toutes les 2s max pour éviter le spam
-            const now = Date.now();
-            if (window.lastVote && now - window.lastVote < 2000) return;
-            window.lastVote = now;
-
             push(ref(db, `rooms/${currentRoomId}/messages`), {
-                sender: "system",
-                text: `Le public crie ${emoji} !!!`,
-                timestamp: now
+                sender: "system", text: `Le public spamme ${emoji} !`, timestamp: Date.now()
             });
         };
 
-        function triggerVisualEffect(emoji) {
-            const container = document.getElementById("overlay-container");
-            for(let i=0; i<10; i++) {
-                const el = document.createElement("div");
-                el.innerText = emoji;
-                el.className = "floating-emoji";
-                el.style.left = Math.random() * 100 + "%";
-                el.style.animationDuration = (1.5 + Math.random()) + "s";
-                el.style.fontSize = (1.5 + Math.random()) + "rem";
-                container.appendChild(el);
-                
-                // Cleanup
-                setTimeout(() => el.remove(), 2500);
+        function renderChat(messages) {
+            const box = document.getElementById("chat-box");
+            box.innerHTML = "";
+            if (!messages) {
+                if (myRole !== 'spectator') box.innerHTML = '<div class="message msg-system">En attente...</div>';
+                return;
             }
+
+            const sorted = Object.values(messages).sort((a,b) => a.timestamp - b.timestamp);
+            sorted.forEach(msg => {
+                const div = document.createElement("div");
+                if (msg.sender === "system") {
+                    div.className = "message msg-system";
+                    div.innerHTML = `<strong>IA:</strong> ${msg.text}`;
+                    if(msg.text.includes("🔥")) triggerEmoji("🔥");
+                    if(msg.text.includes("💀")) triggerEmoji("💀");
+                } else if (msg.sender === "spectator") {
+                    div.className = "message msg-spectator";
+                    div.innerHTML = `<strong>${msg.name}:</strong> ${msg.text}`;
+                } else {
+                    div.className = `message ${msg.sender === 'p1' ? 'msg-p1' : 'msg-p2'}`;
+                    div.innerHTML = `<strong>${msg.name}</strong><br>${msg.text}`;
+                }
+                box.appendChild(div);
+            });
+            box.scrollTop = box.scrollHeight;
         }
 
-        // --- AI JUDGE ENGINE (SIMULATION LOCALE) ---
-        // Simule une IA sans exposer de clé API backend
-        
+        function pushSystemMsg(txt) {
+            const box = document.getElementById("chat-box");
+            box.innerHTML += `<div class="message msg-system">${txt}</div>`;
+        }
+
+        function triggerEmoji(emoji) {
+            const el = document.createElement("div");
+            el.className = "floating-emoji";
+            el.innerText = emoji;
+            el.style.left = Math.random()*80 + 10 + "%";
+            document.getElementById("overlay-container").appendChild(el);
+            setTimeout(() => el.remove(), 2000);
+        }
+
+        // --- 6. SIMULATION IA ---
         function runAIJudge(text, attackerRole) {
-            const targetRole = attackerRole === 'p1' ? 'p2' : 'p1';
+            const target = attackerRole === 'p1' ? 'p2' : 'p1';
             const lower = text.toLowerCase();
-            let damage = 0;
-            let comment = "";
+            let dmg = 0; let cmt = "";
 
-            // 1. Détection Mots Interdits (Filtre)
-            const badWords = ["suicide", "mort", "tuer", "pute", "pd", "salope"];
-            if (badWords.some(w => lower.includes(w))) {
-                comment = "🚫 CLASH REFUSÉ. Trop violent / Interdit.";
-                damage = 0; // Pas de dégâts, mais avertissement
-            }
-            // 2. Détection "Classiques Collège" (Bonus)
-            else if (lower.includes("mère") || lower.includes("maman") || lower.includes("daronne")) {
-                damage = 15;
-                comment = "Attaque 'Maman' ? Un classique, mais peu original. (-15)";
-            }
-            else if (lower.includes("coiffeur") || lower.includes("cheveux") || lower.includes("coupe")) {
-                damage = 30;
-                comment = "Angle d'attaque capillaire validé. (-30)";
-            }
-            else if (lower.includes("chomage") || lower.includes("redoubler") || lower.includes("notes") || lower.includes("segpa")) {
-                damage = 40;
-                comment = "Aïe, ça tape sur l'avenir scolaire. Violent. (-40)";
-            }
-            else if (lower.includes("crush") || lower.includes("ex") || lower.includes("rateau")) {
-                damage = 50;
-                comment = "COUP CRITIQUE SENTIMENTAL ! (-50)";
-            }
-            // 3. Analyse Structurelle
-            else if (text.length < 6) {
-                damage = 5;
-                comment = "C'est tout ? Fais un effort. (-5)";
-            }
-            else if (text.length > 50) {
-                damage = 35;
-                comment = "Belle construction, argumentation solide. (-35)";
-            }
-            else {
-                damage = 20;
-                comment = "Clash valide. (-20)";
-            }
+            if (text.length < 5) { dmg = 0; cmt = "Trop court (-0)"; }
+            else if (lower.includes("mère") || lower.includes("maman")) { dmg = 15; cmt = "Attaque Daronne basique (-15)"; }
+            else if (lower.includes("style") || lower.includes("habit")) { dmg = 30; cmt = "Critique vestimentaire (-30)"; }
+            else { dmg = 20; cmt = "Coup valide (-20)"; }
 
-            // Appliquer les dégâts après un délai "de réflexion"
-            if (damage > 0 || comment !== "") {
+            if (dmg > 0) {
                 setTimeout(() => {
-                    // Réduire l'Aura
-                    if (damage > 0) {
-                        const targetRef = ref(db, `rooms/${currentRoomId}/${targetRole}/aura`);
-                        runTransaction(targetRef, (aura) => (aura || 1000) - damage);
-                    }
-
-                    // Poster le verdict
-                    push(ref(db, `rooms/${currentRoomId}/messages`), {
-                        sender: "system",
-                        text: `${comment}`,
-                        timestamp: Date.now()
-                    });
-                }, 1500);
+                    runTransaction(ref(db, `rooms/${currentRoomId}/${target}/aura`), (a) => (a||1000)-dmg);
+                    push(ref(db, `rooms/${currentRoomId}/messages`), { sender:"system", text:cmt, timestamp:Date.now() });
+                }, 1000);
             }
         }
+        
+        // Presence globale
+        const onlineRef = ref(db, "onlineUsers");
+        onValue(ref(db, ".info/connected"), (snap) => {
+            if (snap.val()) {
+                const con = push(onlineRef);
+                onDisconnect(con).remove();
+                set(con, true);
+            }
+        });
+        onValue(onlineRef, (s) => document.getElementById("server-status").innerText = `● ${s.size||0} connectés`);
+
     </script>
 </body>
 </html>
