@@ -8,11 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CSS STYLES --- */
+        /* --- CSS IDENTIQUE (GARDÉ POUR LE STYLE) --- */
         :root {
             --bg: #050505;
-            --primary: #ff2a2a; /* Rouge néon */
-            --secondary: #00f0ff; /* Bleu néon */
+            --primary: #ff2a2a; 
+            --secondary: #00f0ff;
             --text: #ffffff;
             --dark-panel: #111111;
             --panel-border: #333;
@@ -35,191 +35,136 @@
         .screen.active { display: flex; }
         .hidden { display: none !important; }
 
-        /* --- LOBBY SCREEN (LOGIN) --- */
+        /* LOBBY */
         #lobby-screen {
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
-            padding: 20px;
+            justify-content: center; align-items: center; text-align: center;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); padding: 20px;
         }
-
         .glitch-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: bold;
-            color: var(--text);
-            text-transform: uppercase;
-            margin-bottom: 20px;
+            font-family: 'Orbitron', sans-serif; font-size: 3.5rem; font-weight: bold;
+            color: var(--text); text-transform: uppercase; margin-bottom: 20px;
         }
-
         .input-group { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 320px; }
-
         input {
             padding: 15px; border-radius: 4px; border: 1px solid var(--panel-border);
             background: #000; color: var(--secondary); font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem; text-align: center; outline: none;
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
-            width: 100%;
+            font-size: 1.1rem; text-align: center; outline: none; width: 100%;
         }
-        input:focus { border-color: var(--secondary); box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
-
-        /* Bouton Principal (Entrer / Roaster) */
         .btn-main {
             padding: 20px; border: none; border-radius: 4px; background: var(--primary);
             color: white; font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 1.2rem;
-            cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.2s;
-            clip-path: polygon(5% 0, 100% 0, 100% 80%, 95% 100%, 0 100%, 0 20%);
-            box-shadow: 0 0 20px rgba(255, 42, 42, 0.3);
-        }
-        .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 42, 42, 0.6); }
-        .btn-main:active { transform: scale(0.95); }
-
-        /* --- DASHBOARD SCREEN (HALL) --- */
-        #dashboard-screen {
-            padding: 20px;
-            background: #080808;
+            cursor: pointer; text-transform: uppercase; clip-path: polygon(5% 0, 100% 0, 100% 80%, 95% 100%, 0 100%, 0 20%);
         }
 
-        .dashboard-header {
-            display: flex; flex-direction: column; align-items: center; gap: 20px; margin-bottom: 30px;
-        }
-
-        .user-welcome { color: #888; font-size: 0.9rem; font-family: 'Orbitron'; }
-
-        /* Le GROS bouton ROASTER */
+        /* DASHBOARD */
+        #dashboard-screen { padding: 20px; background: #080808; }
+        .dashboard-header { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-bottom: 30px; }
         #btn-roast-now {
             width: 100%; max-width: 400px; height: 80px; font-size: 1.8rem;
-            background: linear-gradient(45deg, #ff2a2a, #ff0000);
-            animation: pulse-red 2s infinite;
+            background: linear-gradient(45deg, #ff2a2a, #ff0000); animation: pulse-red 2s infinite;
         }
-
         @keyframes pulse-red {
             0% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0.7); }
             70% { box-shadow: 0 0 0 15px rgba(255, 42, 42, 0); }
             100% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0); }
         }
-
         .list-title { color: var(--secondary); font-family: 'Orbitron'; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 5px; }
-
-        /* Liste des rooms */
-        #room-list {
-            flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;
-        }
-
+        #room-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
         .room-card {
             background: #111; border: 1px solid #333; padding: 15px; border-radius: 6px;
             display: flex; justify-content: space-between; align-items: center; cursor: pointer;
-            transition: 0.2s;
         }
-        .room-card:hover { border-color: var(--secondary); background: #1a1a1a; }
-
-        .room-info { display: flex; flex-direction: column; gap: 5px; }
-        .room-vs { font-weight: bold; color: #fff; font-size: 1rem; }
-        .room-vs span { color: #888; }
-        .room-specs { color: #666; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; }
-
         .live-tag { background: red; color: white; padding: 2px 6px; font-size: 0.7rem; border-radius: 2px; font-weight: bold; }
 
-        /* --- ARENA SCREEN --- */
+        /* ARENA */
         #arena-screen { background: #000; position: relative; }
         .aura-header { background: var(--dark-panel); padding: 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
         .player-stats { width: 40%; text-align: center; }
-        .aura-bar-container { height: 6px; background: #222; border-radius: 2px; overflow: hidden; margin-top: 5px; }
-        .aura-fill { height: 100%; transition: width 0.5s; }
-        #p1-bar { background: var(--secondary); }
-        #p2-bar { background: var(--primary); }
+        
+        /* NOUVEAU : Barre plus large pour mieux voir la descente */
+        .aura-bar-container { height: 12px; background: #222; border-radius: 4px; overflow: hidden; margin-top: 5px; border: 1px solid #444; }
+        .aura-fill { height: 100%; transition: width 0.3s ease-out; } /* Transition plus rapide pour effet "Impact" */
+        
+        #p1-bar { background: linear-gradient(90deg, #00f0ff, #0055ff); }
+        #p2-bar { background: linear-gradient(90deg, #ff2a2a, #ff0000); }
+        .aura-text { font-size: 0.8rem; color: #fff; font-weight: bold; text-shadow: 0 0 5px black; margin-top: -14px; position: relative; z-index: 2; }
         
         #chat-box { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
         .message { padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; max-width: 85%; word-wrap: break-word; }
-        .msg-system { align-self: center; background: #111; border: 1px solid var(--primary); color: var(--primary); text-align: center; font-size: 0.8rem; }
-        .msg-p1 { align-self: flex-start; border-left: 2px solid var(--secondary); background: rgba(0, 240, 255, 0.1); color: #ddd; }
-        .msg-p2 { align-self: flex-end; border-right: 2px solid var(--primary); background: rgba(255, 42, 42, 0.1); text-align: right; color: #ddd; }
-        .msg-spectator { align-self: center; color: #666; font-size: 0.8rem; border: 1px solid #333; }
+        .msg-system { align-self: center; background: #111; border: 1px solid var(--primary); color: var(--primary); text-align: center; font-size: 0.8rem; box-shadow: 0 0 10px rgba(255,42,42,0.2); }
+        .msg-p1 { align-self: flex-start; border-left: 3px solid var(--secondary); background: rgba(0, 240, 255, 0.1); color: #ddd; }
+        .msg-p2 { align-self: flex-end; border-right: 3px solid var(--primary); background: rgba(255, 42, 42, 0.1); text-align: right; color: #ddd; }
 
         .controls-area { padding: 10px; background: #111; display: flex; gap: 10px; }
         #message-input, #spec-input { flex: 1; padding: 10px; background: #000; border: 1px solid #333; color: white; outline: none; }
         .send-btn { width: 50px; background: var(--secondary); border: none; color: black; font-weight: bold; cursor: pointer; }
-        .back-btn { background: transparent; color: #666; border: 1px solid #333; padding: 5px 10px; font-size: 0.8rem; cursor: pointer; margin-right: 10px; }
+        .back-btn { background: transparent; color: #666; border: 1px solid #333; padding: 5px 10px; font-size: 0.8rem; cursor: pointer; }
 
-        /* Overlay Emojis */
         #overlay-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; }
-        .floating-emoji { position: absolute; font-size: 2rem; animation: floatUp 2s linear forwards; opacity: 0; }
-        @keyframes floatUp { 0% { transform: translateY(0) scale(0.5); opacity: 1; } 100% { transform: translateY(-80vh) scale(1.5); opacity: 0; } }
+        .floating-emoji { position: absolute; font-size: 3rem; animation: floatUp 1.5s linear forwards; opacity: 0; }
+        @keyframes floatUp { 0% { transform: translateY(0) scale(0.5); opacity: 1; } 100% { transform: translateY(-50vh) scale(1.5); opacity: 0; } }
     </style>
 </head>
 <body>
 
-    <!-- === ECRAN 1 : LOBBY (LOGIN) === -->
+    <!-- LOBBY -->
     <div id="lobby-screen" class="screen active">
         <div class="glitch-text">ROAST.ME</div>
-        
         <div class="input-group">
             <input type="text" id="username" placeholder="TON BLAZE" maxlength="12" autocomplete="off">
             <button class="btn-main" onclick="enterApp()">ENTRER</button>
         </div>
-        <p class="status-text" id="server-status">Connexion au serveur...</p>
+        <p class="status-text" id="server-status">Connexion...</p>
     </div>
 
-    <!-- === ECRAN 2 : DASHBOARD (LE HALL) === -->
+    <!-- DASHBOARD -->
     <div id="dashboard-screen" class="screen">
         <div class="dashboard-header">
-            <div class="user-welcome">CONNECTÉ EN TANT QUE <span id="display-username" style="color:white; font-weight:bold;"></span></div>
-            
-            <!-- LE GROS BOUTON ROUGE -->
+            <div style="color:#888; font-family:'Orbitron'">BLAZE: <span id="display-username" style="color:white;"></span></div>
             <button id="btn-roast-now" class="btn-main" onclick="startMatchmaking()">🔥 ROASTER</button>
         </div>
-
-        <div class="list-title">CONVERSATIONS EN COURS</div>
-        <div id="room-list">
-            <!-- La liste des duels s'affiche ici via JS -->
-            <div style="color: #444; text-align: center; margin-top: 20px;">Chargement des duels...</div>
-        </div>
+        <div class="list-title">DUELS EN COURS</div>
+        <div id="room-list"></div>
     </div>
 
-    <!-- === ECRAN 3 : ARÈNE (COMBAT OU SPECTATEUR) === -->
+    <!-- ARENA -->
     <div id="arena-screen" class="screen">
         <div id="overlay-container"></div>
-
-        <!-- Header -->
         <div class="aura-header">
             <button class="back-btn" onclick="leaveArena()">QUITTER</button>
             <div class="player-stats">
-                <span id="p1-name" style="font-size:0.8rem; color:var(--secondary);">P1</span>
+                <span id="p1-name" style="color:var(--secondary);">P1</span>
                 <div class="aura-bar-container"><div id="p1-bar" class="aura-fill" style="width: 100%;"></div></div>
+                <div id="p1-text" class="aura-text">300</div>
             </div>
-            <div style="font-family:'Orbitron'; font-style:italic; color:#444;">VS</div>
+            <div style="font-family:'Orbitron'; color:#444;">VS</div>
             <div class="player-stats">
-                <span id="p2-name" style="font-size:0.8rem; color:var(--primary);">P2</span>
+                <span id="p2-name" style="color:var(--primary);">P2</span>
                 <div class="aura-bar-container"><div id="p2-bar" class="aura-fill" style="width: 100%;"></div></div>
+                <div id="p2-text" class="aura-text">300</div>
             </div>
         </div>
 
-        <!-- Chat -->
         <div id="chat-box"></div>
 
-        <!-- Contrôles Joueur -->
         <div id="player-controls" class="controls-area hidden">
-            <input type="text" id="message-input" placeholder="Ta punchline..." autocomplete="off">
+            <input type="text" id="message-input" placeholder="Détruis-le..." autocomplete="off">
             <button class="send-btn" onclick="sendMessage()">→</button>
         </div>
 
-        <!-- Contrôles Spectateur -->
         <div id="spectator-controls" class="controls-area hidden">
             <input type="text" id="spec-input" placeholder="Commente..." style="flex:2;">
             <button class="send-btn" onclick="sendSpectatorMessage()">→</button>
-            <button onclick="voteReaction('🔥')" style="background:none; border:1px solid #333; color:white; cursor:pointer;">🔥</button>
-            <button onclick="voteReaction('💀')" style="background:none; border:1px solid #333; color:white; cursor:pointer;">💀</button>
+            <button onclick="voteReaction('🔥')" style="background:none; border:1px solid #333; color:white;">🔥</button>
+            <button onclick="voteReaction('💀')" style="background:none; border:1px solid #333; color:white;">💀</button>
         </div>
     </div>
 
-    <!-- === JAVASCRIPT === -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
         import { getDatabase, ref, set, push, onValue, update, runTransaction, get, onDisconnect, remove } 
         from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
 
-        // CONFIG EURO
         const firebaseConfig = {
             apiKey: "AIzaSyBwDCPvgwzWb8mxSroebpUWwNGW45MQRTY",
             authDomain: "roast-me-6ec97.firebaseapp.com",
@@ -233,95 +178,66 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // GLOBALS
         let myPseudo = "";
         let currentRoomId = null;
-        let myRole = "spectator"; // 'p1', 'p2', 'spectator'
-        
-        // --- 1. LOBBY & NAVIGATION ---
+        let myRole = "spectator";
+
+        // --- CONSTANTES DE JEU ---
+        const MAX_AURA = 300; // Beaucoup moins de vie pour des parties rapides
 
         window.enterApp = function() {
             const input = document.getElementById("username");
-            if (!input.value.trim()) return alert("Mets un pseudo !");
-            
+            if (!input.value.trim()) return;
             myPseudo = input.value.trim();
             document.getElementById("display-username").innerText = myPseudo;
-
-            // Switch Screen
             document.getElementById("lobby-screen").classList.remove("active");
             document.getElementById("dashboard-screen").classList.add("active");
-
-            // Lancer l'écoute des salles pour le Hall
             listenToRooms();
         };
 
         window.leaveArena = function() {
-            if (currentRoomId && myRole === 'spectator') {
-                // Decrement spectator count on leave
-                const specRef = ref(db, `rooms/${currentRoomId}/spectators`);
-                runTransaction(specRef, (count) => (count || 0) - 1);
-            }
-            
             currentRoomId = null;
             document.getElementById("arena-screen").classList.remove("active");
             document.getElementById("dashboard-screen").classList.add("active");
         };
 
-        // --- 2. DASHBOARD : LISTE DES SALLES ---
-
         function listenToRooms() {
-            const roomsRef = ref(db, 'rooms');
-            onValue(roomsRef, (snapshot) => {
+            onValue(ref(db, 'rooms'), (snapshot) => {
                 const listDiv = document.getElementById("room-list");
-                listDiv.innerHTML = ""; // Clear
-
+                listDiv.innerHTML = "";
                 if (!snapshot.exists()) {
-                    listDiv.innerHTML = "<div style='text-align:center; color:#666;'>Aucun duel en cours. Lance-en un !</div>";
+                    listDiv.innerHTML = "<div style='text-align:center; color:#666;'>Aucun duel.</div>";
                     return;
                 }
-
                 const rooms = snapshot.val();
-                // Trier par timestamp si possible, ici on prend tout
                 Object.entries(rooms).forEach(([key, room]) => {
-                    // On n'affiche que les salles actives ou en attente
                     if (room.status === "finished") return; 
-
                     const p1 = room.p1 ? room.p1.name : "?";
-                    const p2 = room.p2 ? room.p2.name : (room.status === 'waiting' ? "En recherche..." : "?");
-                    const specs = room.spectators || 0;
-                    const isWaiting = room.status === 'waiting';
-
+                    const p2 = room.p2 ? room.p2.name : "...";
+                    
                     const card = document.createElement("div");
                     card.className = "room-card";
                     card.innerHTML = `
-                        <div class="room-info">
-                            <div class="room-vs">${p1} <span style="font-size:0.8rem">VS</span> ${p2}</div>
-                            <div class="room-specs">👁️ ${specs} spectateurs ${isWaiting ? '(En attente)' : '<span class="live-tag">LIVE</span>'}</div>
+                        <div>
+                            <div style="font-weight:bold; color:white;">${p1} <span style="color:#666">VS</span> ${p2}</div>
+                            <div style="font-size:0.8rem; color:#888;">${room.status === 'waiting' ? 'En attente' : '🔴 EN DIRECT'}</div>
                         </div>
-                        <div style="color:var(--secondary); font-size:1.5rem;">▶</div>
+                        <div style="color:var(--secondary);">▶</div>
                     `;
-                    
-                    // Click -> Mode Spectateur
                     card.onclick = () => joinAsSpectator(key);
                     listDiv.appendChild(card);
                 });
             });
         }
 
-        // --- 3. MATCHMAKING (ROASTER) ---
-
         window.startMatchmaking = async function() {
-            // Passer en écran Arène en mode "Loading"
             document.getElementById("dashboard-screen").classList.remove("active");
             document.getElementById("arena-screen").classList.add("active");
-            document.getElementById("chat-box").innerHTML = '<div class="message msg-system">Recherche d\'un adversaire...</div>';
-            
-            // Masquer les contrôles le temps de trouver
             document.getElementById("player-controls").classList.add("hidden");
             document.getElementById("spectator-controls").classList.add("hidden");
+            document.getElementById("chat-box").innerHTML = '<div class="message msg-system">Recherche d\'adversaire...</div>';
 
-            const roomsRef = ref(db, 'rooms');
-            const snapshot = await get(roomsRef);
+            const snapshot = await get(ref(db, 'rooms'));
             let joined = false;
 
             if (snapshot.exists()) {
@@ -334,23 +250,18 @@
                     }
                 }
             }
-
-            if (!joined) {
-                createRoom();
-            }
+            if (!joined) createRoom();
         };
 
         function createRoom() {
             const newRoomRef = push(ref(db, 'rooms'));
             currentRoomId = newRoomRef.key;
             myRole = "p1";
-            
             set(newRoomRef, {
                 status: "waiting",
-                p1: { name: myPseudo, aura: 1000 },
-                p2: { name: "En attente...", aura: 1000 },
+                p1: { name: myPseudo, aura: MAX_AURA }, // 300 Aura
+                p2: { name: "En attente...", aura: MAX_AURA },
                 messages: {},
-                spectators: 0,
                 createdAt: Date.now()
             });
             setupArenaUI();
@@ -359,10 +270,9 @@
         function joinAsPlayer(roomId, role) {
             currentRoomId = roomId;
             myRole = role;
-            
             update(ref(db, `rooms/${roomId}`), {
                 status: "active",
-                p2: { name: myPseudo, aura: 1000 }
+                p2: { name: myPseudo, aura: MAX_AURA }
             });
             setupArenaUI();
         }
@@ -370,19 +280,10 @@
         window.joinAsSpectator = function(roomId) {
             currentRoomId = roomId;
             myRole = "spectator";
-            
-            // Increment spectator count
-            const specRef = ref(db, `rooms/${roomId}/spectators`);
-            runTransaction(specRef, (count) => (count || 0) + 1);
-
-            // Switch UI
             document.getElementById("dashboard-screen").classList.remove("active");
             document.getElementById("arena-screen").classList.add("active");
-            
             setupArenaUI();
         };
-
-        // --- 4. ARENA LOGIC ---
 
         function setupArenaUI() {
             const pCtrl = document.getElementById("player-controls");
@@ -391,34 +292,32 @@
             if (myRole === 'spectator') {
                 pCtrl.classList.add("hidden");
                 sCtrl.classList.remove("hidden");
-                pushSystemMsg("Vous regardez ce match.");
             } else {
                 sCtrl.classList.add("hidden");
                 pCtrl.classList.remove("hidden");
-                // Attacher Enter key
                 document.getElementById("message-input").onkeypress = (e) => { if(e.key==='Enter') sendMessage(); };
             }
 
-            // Sync Realtime
             onValue(ref(db, `rooms/${currentRoomId}`), (snapshot) => {
                 const data = snapshot.val();
-                if (!data) return; // Room deleted?
+                if (!data) return;
 
-                // Names & Aura
                 document.getElementById("p1-name").innerText = data.p1.name;
                 document.getElementById("p2-name").innerText = data.p2.name;
                 
-                const p1Pct = Math.max(0, data.p1.aura / 10);
-                const p2Pct = Math.max(0, data.p2.aura / 10);
+                // Calcul basé sur MAX_AURA (300)
+                const p1Pct = Math.max(0, (data.p1.aura / MAX_AURA) * 100);
+                const p2Pct = Math.max(0, (data.p2.aura / MAX_AURA) * 100);
+                
                 document.getElementById("p1-bar").style.width = p1Pct + "%";
                 document.getElementById("p2-bar").style.width = p2Pct + "%";
+                
+                document.getElementById("p1-text").innerText = Math.max(0, data.p1.aura);
+                document.getElementById("p2-text").innerText = Math.max(0, data.p2.aura);
 
-                // Chat
                 renderChat(data.messages);
             });
         }
-
-        // --- 5. CHAT & IA ---
 
         window.sendMessage = function() {
             const input = document.getElementById("message-input");
@@ -436,27 +335,21 @@
             const input = document.getElementById("spec-input");
             const text = input.value.trim();
             if(!text) return;
-
-            push(ref(db, `rooms/${currentRoomId}/messages`), {
-                sender: "spectator", name: myPseudo, text: text, timestamp: Date.now()
-            });
+            push(ref(db, `rooms/${currentRoomId}/messages`), { sender: "spectator", name: myPseudo, text: text, timestamp: Date.now() });
             input.value = "";
         };
 
         window.voteReaction = function(emoji) {
-            push(ref(db, `rooms/${currentRoomId}/messages`), {
-                sender: "system", text: `Le public spamme ${emoji} !`, timestamp: Date.now()
-            });
+            push(ref(db, `rooms/${currentRoomId}/messages`), { sender: "system", text: `Le public spamme ${emoji} !`, timestamp: Date.now() });
         };
 
         function renderChat(messages) {
             const box = document.getElementById("chat-box");
             box.innerHTML = "";
             if (!messages) {
-                if (myRole !== 'spectator') box.innerHTML = '<div class="message msg-system">En attente...</div>';
+                if (myRole !== 'spectator') box.innerHTML = '<div class="message msg-system">Prêt à roaster ?</div>';
                 return;
             }
-
             const sorted = Object.values(messages).sort((a,b) => a.timestamp - b.timestamp);
             sorted.forEach(msg => {
                 const div = document.createElement("div");
@@ -477,11 +370,6 @@
             box.scrollTop = box.scrollHeight;
         }
 
-        function pushSystemMsg(txt) {
-            const box = document.getElementById("chat-box");
-            box.innerHTML += `<div class="message msg-system">${txt}</div>`;
-        }
-
         function triggerEmoji(emoji) {
             const el = document.createElement("div");
             el.className = "floating-emoji";
@@ -491,26 +379,65 @@
             setTimeout(() => el.remove(), 2000);
         }
 
-        // --- 6. SIMULATION IA ---
+        // --- NOUVELLE LOGIQUE IA (PLUS DURE) ---
         function runAIJudge(text, attackerRole) {
             const target = attackerRole === 'p1' ? 'p2' : 'p1';
             const lower = text.toLowerCase();
-            let dmg = 0; let cmt = "";
+            let dmg = 0; 
+            let cmt = "";
 
-            if (text.length < 5) { dmg = 0; cmt = "Trop court (-0)"; }
-            else if (lower.includes("mère") || lower.includes("maman")) { dmg = 15; cmt = "Attaque Daronne basique (-15)"; }
-            else if (lower.includes("style") || lower.includes("habit")) { dmg = 30; cmt = "Critique vestimentaire (-30)"; }
-            else { dmg = 20; cmt = "Coup valide (-20)"; }
+            // 1. FILTRE ANTI-SPAM (Trop court = 0)
+            if (text.length < 8) { 
+                dmg = 0; 
+                cmt = "Trop court, développe ! (0)"; 
+            }
+            // 2. CHANCE DE FLOP (20% de chance de rater si c'est pas un mot clé)
+            else if (!isKeyword(lower) && Math.random() < 0.20) {
+                 dmg = 0;
+                 cmt = "Le public reste silencieux... (0)";
+            }
+            // 3. MOTS CLÉS (Gros dégâts)
+            else if (lower.includes("mère") || lower.includes("maman")) { 
+                dmg = 45; 
+                cmt = "Attaque Daronne ! (-45)"; 
+            }
+            else if (lower.includes("style") || lower.includes("habit") || lower.includes("sape") || lower.includes("chaussure")) { 
+                dmg = 60; 
+                cmt = "Critique vestimentaire validée (-60)"; 
+            }
+            else if (lower.includes("moche") || lower.includes("tête") || lower.includes("gueule")) {
+                dmg = 35;
+                cmt = "Attaque physique simple (-35)";
+            }
+            else if (lower.includes("force") || lower.includes("raté") || lower.includes("nul")) {
+                dmg = 50;
+                cmt = "Coup au moral (-50)";
+            }
+            // 4. COUP STANDARD (Si passé les filtres)
+            else { 
+                dmg = 35; // Dégâts de base augmentés
+                cmt = "Coup valide (-35)"; 
+            }
 
-            if (dmg > 0) {
+            if (dmg > 0 || cmt !== "") {
                 setTimeout(() => {
-                    runTransaction(ref(db, `rooms/${currentRoomId}/${target}/aura`), (a) => (a||1000)-dmg);
+                    // Applique les dégâts
+                    if (dmg > 0) {
+                        runTransaction(ref(db, `rooms/${currentRoomId}/${target}/aura`), (a) => {
+                            let newVal = (a || MAX_AURA) - dmg;
+                            return newVal < 0 ? 0 : newVal;
+                        });
+                    }
                     push(ref(db, `rooms/${currentRoomId}/messages`), { sender:"system", text:cmt, timestamp:Date.now() });
                 }, 1000);
             }
         }
+
+        function isKeyword(txt) {
+            const keys = ["style", "habit", "mère", "maman", "tête", "force", "nul", "raté", "moche", "sape"];
+            return keys.some(k => txt.includes(k));
+        }
         
-        // Presence globale
         const onlineRef = ref(db, "onlineUsers");
         onValue(ref(db, ".info/connected"), (snap) => {
             if (snap.val()) {
